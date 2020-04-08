@@ -1,0 +1,9 @@
+#pom.xml
+.project
+.classpath
+.settings
+target
+*.cld
+/bin
+logs
+src/main/resources/*.properties
