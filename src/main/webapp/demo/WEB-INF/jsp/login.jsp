@@ -68,6 +68,7 @@
 		function login(){
 			var ID = $('#ID').val();
 			var password =$('#password').val();
+			var userType=$('#userType').val();
 
 			if(ID == "" || password == ""){
 				layer.msg("请输入用户名和密码!");

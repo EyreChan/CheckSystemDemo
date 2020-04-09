@@ -7,3 +7,4 @@ target
 /bin
 logs
 src/main/resources/*.properties
+/build/
