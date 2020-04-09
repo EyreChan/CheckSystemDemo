@@ -58,8 +58,12 @@ public class LogController {
 	@RequestMapping("/validate")
 	@ResponseBody
 	public String validate(HttpServletRequest request, HttpServletResponse response, Model model) {
+		System.out.println("validate");
+		
 		String name = request.getParameter("name");
 		String password = request.getParameter("password");
+		
+		System.out.println("name" + name);
 		
 	    Cookie nameCookie = new Cookie("loginName", name);  
 	    Cookie passwordCookie = new Cookie("loginPassword", password);  

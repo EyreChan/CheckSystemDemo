@@ -56,7 +56,7 @@
     </trim>
   </insert>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from patient
+    delete from user
     where name = #{name,jdbcType=VARCHAR}
   </delete>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
