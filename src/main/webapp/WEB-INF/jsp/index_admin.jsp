@@ -1,166 +1,94 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html>
-
-<head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!--360浏览器优先以webkit内核解析-->
-
-
-    <title> - 主页示例</title>
-
-    <link rel="shortcut icon" href="favicon.ico"> <link href="../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="../static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
-
-    <link href="../static/css/animate.css" rel="stylesheet">
-    <link href="../static/css/style.css?v=4.1.0" rel="stylesheet">
-
-</head>
-
-<body class="gray-bg">
-    <div class="wrapper wrapper-content">
-        <div class="row">
-            <div class="col-sm-10">
-                <div class="row">
-                    <div class="row">
-                    <div class="col-sm-12">
-                        <div class="row row-sm text-center">
-                            <div class="col-xs-6">
-                                <div class="panel padder-v item bg-info">
-                                    <div class="h1 text-fff font-thin h1" id="doctor"></div>
-                                    <span class="text-muted text-xs">医院医生人数</span>
-                                </div>
-                            </div>
-                            <div class="col-xs-6">
-                                <div class="panel padder-v item bg-primary">
-                                    <div class="h1 text-fff font-thin h1" id="category"></div>
-                                    <span class="text-muted text-xs">医院科室数</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="ibox">
-                            <div class="ibox-title">
-                                <h5>挂号清单</h5>
-                            </div>
-                            
-                            <div class="ibox-content">
-                                <table class="table table-striped table-bordered table-hover dataTables-example">
-		                            <thead>
-		                                <tr>
-		                                    <th>挂号单ID</th>
-		                                    <th>预约人姓名</th>
-		                                   
-		                                
-		                                    <th>挂号科室</th>
-		                                    <th>挂号医生</th>
-		                                    <th>挂号单状态</th>
-		                                    <th>预约时间</th>
-		                                    
-		                                    
-		                                </tr>
-		                            </thead>
-		                            <tbody id="deptList">
-		                            
-		                            </tbody>
-		                        </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-    
-            
-        </div>
-    </div>
-    <!-- 全局js -->
-    <script src="../static/js/jquery.min.js?v=2.1.4"></script>
-    <script src="../static/js/bootstrap.min.js?v=3.3.6"></script>
-    <script src="../static/js/plugins/layer/layer.min.js"></script>
-    <!-- 自定义js -->
-    <script src="../static/js/content.js"></script>
-    <!-- Data Tables -->
-    <script src="../static/js/plugins/dataTables/jquery.dataTables.js"></script>
-    <script src="../static/js/plugins/dataTables/dataTables.bootstrap.js"></script>
-    <!--flotdemo-->
-    <script type="text/javascript">
-    $(document).ready(function () {
-    	//获取医生相关信息
-		$.ajax({
-    		url: '../getDocList.do',
-    		type: 'POST',
-    		dataType: 'JSON',
-    		success: function(res){
-    			$('#doctor').html(res.length);
-    			for (let i = 0; i < res.length; i++) {
-    				$('#doctorList').append("<li><span class='docLi' onclick='showDoctor("+res[i].doctorId+")'>"+res[i].doctorName+"</span></li>");
-    			}	 
-    			
-    			
-    		},
-    		error: function(res){
-    			layer.msg('加载失败');
-    		}
-    	});
-		//获取科室相关信息
-		$.ajax({
-    		url: '../getDeptList.do',
-    		type: 'POST',
-    		dataType: 'JSON',
-    		success: function(res){
-    			$('#category').html(res.length);
-    		},
-    		error: function(res){
-    			layer.msg('加载失败');
-    		}
-    	});
-		
-    	$.ajax({
-    		url: '../getRegList.do',
-    		type: 'POST',
-    		dataType: 'JSON',
-    		success: function(res){
-    			var data = res;
-    			//然后 DataTables 这样初始化：
-                $('.dataTables-example').DataTable( {
-                    data: data,
-                    columns: [
-                        { data: 'registerId' },
-                        { data: 'hzUsername' },
-                     
-                        { data: 'doctorName' },
-                        { data: 'deptName' },
-                        { data: 'ghStatus',render:function(data,type,row){
-                            if(data == 1){
-                                return "<button class='btn btn-success'>正常</a>";
-                            }else{
-                                return "<button class='btn btn-danger'>取消</a>";
-                            }
-                    	} },
-                        { data: 'registerTime' },
-                       
-                    ]
-                } );
-    		},
-    		error: function(res){
-    			layer.msg('加载失败');
-    		}
-    	});
-    });
-    //重新加载
-    function reload(){
-    	window.location.reload();
-    }
-            
-    </script>
-</body>
-
+	<head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <meta name="renderer" content="webkit">
+	
+	    <title>用户主页</title>
+	
+	    <!--[if lt IE 9]>
+	    <meta http-equiv="refresh" content="0;ie.html" />
+	    <![endif]-->
+	
+	    <link href="/static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+	    <link href="/static/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+	    <link href="/static/css/animate.css" rel="stylesheet">
+	    <link href="/static/css/style.css?v=4.1.0" rel="stylesheet">
+	</head>
+	<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
+	    <div id="wrapper">
+	        <!--左侧导航开始-->
+	        <nav class="navbar-default navbar-static-side" role="navigation">
+	            <div class="sidebar-collapse">
+	                <ul class="nav" id="side-menu">
+	                    <li class="nav-header">
+	                        <div class="dropdown profile-element">
+	                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+	                                <span class="clear">
+	                                    <span class="block m-t-xs" style="font-size:20px;">
+	                                        <strong class="font-bold">文档格式审查系统</strong>
+	                                    </span>
+	                                </span>
+	                            </a>
+	                        </div>
+	                    </li>   
+	                    <li>
+	                        <a class="J_menuItem" href="/admin/admin_manageUser">
+		                        <span class="nav-label">用户管理</span>
+	                        </a>
+	                    </li>
+	                    <li>
+	                        <a class="J_menuItem" onclick="loginOut()">
+		                        <span class="nav-label">退出登录</span>
+	                        </a>
+	                    </li>
+	                </ul>
+	            </div>
+	        </nav>
+	        <!--左侧导航结束-->
+	        <!--右侧部分开始-->
+	        <div id="page-wrapper" class="gray-bg dashbard-1">
+	            <div class="row J_mainContent" id="content-main">
+	                <iframe id="J_iframe" width="100%" height="100%" src="/admin/admin_manageUser" frameborder="0" seamless></iframe>
+	            </div>
+	        </div>
+	        <!--右侧部分结束-->
+	    </div>
+	
+	    <!-- 全局js -->
+	    <script src="/static/js/jquery.min.js?v=2.1.4"></script>
+	    <script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+	    <script src="/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+	    <script src="/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+	    <script src="/static/js/plugins/layer/layer.min.js"></script>
+	
+	    <!-- 自定义js -->
+	    <script src="/static/js/hAdmin.js?v=4.1.0"></script>
+	    <script type="text/javascript" src="/static/js/index.js"></script>
+	
+	    <!-- 第三方插件 -->
+	    <script src="/static/js/plugins/pace/pace.min.js"></script>
+	    <script type="text/javascript" src="/static/js/jquery.cookie.js"></script>
+	    
+	    <script type="text/javascript">
+			$(document).ready(
+				);
+			
+			function loginOut(){
+				layer.confirm('确认退出吗？', {
+			  		  btn: ['确定','取消'] //按钮
+			  		}, function(){
+			  			layer.msg('退出成功，前往登录界面！');
+			  			setTimeout(function(){
+			  	  			$.cookie('loginName', null, {path: '/'});
+			  	  			$.cookie('loginPassword', null, {path: '/'});
+							window.location.href="/log/logout";
+						},1000);
+			  		}, function(){
+			  	});
+			}
+		</script>
+	</body>
 </html>

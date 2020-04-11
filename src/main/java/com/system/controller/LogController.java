@@ -79,6 +79,8 @@ public class LogController {
 	    	    response.addCookie(passwordCookie); 
 	    	    model.addAttribute("user", user);
 	    	    
+	    	    System.out.println("user");
+	    	    
 	    	    return "/index.jsp";
 	    	}
 	    }
@@ -89,6 +91,8 @@ public class LogController {
 		    	    response.addCookie(nameCookie);  
 		    	    response.addCookie(passwordCookie); 
 		    	    model.addAttribute("admin", admin);
+		    	    
+		    	    System.out.println("admin");
 					
 					return "/index/index_admin";
 				}

@@ -13,31 +13,15 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-/**
- * Servlet Filter implementation class LoginFilter
- */
 public class LoginFilter implements Filter {
-
-    /**
-     * Default constructor. 
-     */
     public LoginFilter() {
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see Filter#destroy()
-	 */
 	public void destroy() {
 		// TODO Auto-generated method stub
 		System.out.println("过滤器销毁");
 	}
 
-
-	/**
-	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
-	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		req.setCharacterEncoding("utf-8");
@@ -59,11 +43,6 @@ public class LoginFilter implements Filter {
 		}
 		
 		resp.setContentType("text/html;charset=utf-8");
-		if(url.contains("/root/")) {
-			chain.doFilter(req, resp);
-			
-			return;
-		}
 		
 		List<String> list= new ArrayList<String>(); //将不需要过滤的请求存放到集合中
 		list.add("/log/login");//登录页面
