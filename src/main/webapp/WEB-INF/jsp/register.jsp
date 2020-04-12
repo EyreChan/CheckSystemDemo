@@ -17,9 +17,6 @@
 	<body class="gray-bg">
 	    <div class="middle-box text-center loginscreen   animated fadeInDown">
 	        <div>
-	            <div>
-	                <h1 class="logo-name">DFMS</h1>
-	            </div>
 	            <h3>欢迎注册文档格式管理系统</h3>
 	            <p>创建一个新账户</p>
 	            <form class="m-t" role="form" action="login.html">
