@@ -110,13 +110,13 @@ public class LogController {
 	
 	@RequestMapping("/doRegister")
 	@ResponseBody
-	public Integer doRegister(String name, String password, String phone, String gender, int age, HttpServletResponse response, Model model) {
+	public Integer doRegister(String name, String password, String phone, String gender, String age, HttpServletResponse response, Model model) {
 		User user = new User();
 		user.setName(name);
 		user.setPassword(password);
 		user.setPhone(phone);
 		user.setGender(gender);
-		user.setAge(age);
+		user.setAge(Integer.parseInt(age));
 		
 		int flag = this.userService.insertUser(user);
 		
