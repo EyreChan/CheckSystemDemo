@@ -1,5 +1,8 @@
 package com.system.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -57,7 +60,7 @@ public class LogController {
 	
 	@RequestMapping("/validate")
 	@ResponseBody
-	public String validate(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String validate(HttpServletRequest request, HttpServletResponse response, Model model) throws UnsupportedEncodingException {
 		System.out.println("validate");
 		
 		String name = request.getParameter("name");
@@ -65,8 +68,9 @@ public class LogController {
 		
 		System.out.println("name" + name);
 		
-	    Cookie nameCookie = new Cookie("loginName", name);  
-	    Cookie passwordCookie = new Cookie("loginPassword", password);  
+		
+	    Cookie nameCookie = new Cookie("loginName", URLEncoder.encode(name, "UTF-8"));  
+	    Cookie passwordCookie = new Cookie("loginPassword", URLEncoder.encode(password, "UTF-8"));  
 	    nameCookie.setMaxAge(60 * 60);  
 	    nameCookie.setPath("/");  
 	    passwordCookie.setMaxAge(60 * 60);  

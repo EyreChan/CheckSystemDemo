@@ -26,18 +26,23 @@
 	                <div class="ibox float-e-margins">
 	                    <div class="ibox-title">
 	                        <h5>普通用户 <small>列表</small></h5>
+	                        <div style="text-align:right">
+	                        	<a type="button" style="text-align:right;" class="btn btn-info" href="#" onclick=addUser()>添加用户</a>
+	                        </div>
 	                    </div>
 	                    <div class="ibox-content">
-	                        <table class="table table-striped table-bordered table-hover dataTables-example">
-	                            <thead>
-	                                <tr>
-	                                    <th>用户名</th>
-	                                    <th>操作</th>
-	                                </tr>
-	                            </thead>
-	                            <tbody id="userList">
-	                            </tbody>
-	                        </table>
+	                    	<div>
+		                    	<table class="table table-striped table-bordered table-hover dataTables-example">
+		                            <thead>
+		                                <tr>
+		                                    <th>用户名</th>
+		                                    <th>操作</th>
+		                                </tr>
+		                            </thead>
+		                            <tbody id="userList">
+		                            </tbody>
+		                        </table>
+	                    	</div>
 	                    </div>
 	                </div>
 	            </div>
@@ -73,7 +78,7 @@
 	                        ],
 	                        columnDefs:[{
 	                            targets: 1,
-	                            render: function (data, type, row) {
+	                            render: function (data, type, row, meta) {
 	                                return '<a type="button" class="btn btn-info" href="#" onclick=editByName("' + row.name + '") >编辑 </a>' 
 	                                		+ '<a type="button" class="btn btn-info" href="#" onclick=deleteByName("' + row.name + '") >删除</a>';
 	                            }
@@ -87,28 +92,66 @@
 	        		}
 	        	});
 	        });
-	        function editByName(name){
-	        	//根据用户名获取用户信息
+	        function deleteByName(username){
+	        	//根据用户名删除用户信息
+	        	layer.confirm('确认删除吗？', {
+			  		  btn: ['确定','取消'] //按钮
+			  		}, function(name){
+			  			$.ajax({
+			        		url: '/admin/admin_deleteUser',
+			        		type: 'POST',
+			        		dataType: 'JSON',
+			        		data:{'name':username},
+			        		success: function(res){
+			        			if(res == 0){
+				        			layer.msg('删除失败');
+			        			}
+			        			else{
+			        				layer.alert('删除成功',function(index){
+	                					layer.close(index);
+	                					reload();
+	                				});
+			        			}
+			        		},
+			        		error: function(res){
+			        			layer.msg('删除失败');
+			        		}
+			        	});
+			  		}, function(){
+			  	});
+	        }
+	        function editByName(username) {
 	        	layer.open({
-	      		  type: 2,
-	      		  title: '用户信息',
-	      		  shadeClose: true,
-	      		  shade: 0.8,
-	      		  area: ['70%', '80%'],
-	      		  content: '/admin/admin_editUserByName',
-	      		  success: function (layero, index) {
-	      			var iframe = window['layui-layer-iframe' + index];
-	                iframe.getUserByName(name)
-	              }
-	      		});
+		       		  type: 2,
+		       		  title: '用户信息',
+		       		  shadeClose: true,
+		       		  shade: 0.8,
+		       		  area: ['70%', '90%'],
+		       		  content: '/admin/admin_editUser',
+		       		  success: function (layero, index) {
+	        			var iframe = window['layui-layer-iframe' + index];
+	                  	iframe.getUser(username)
+	                }
+	       		});
+	        }
+	        function addUser() {
+	        	layer.open({
+		       		  type: 2,
+		       		  title: '用户信息',
+		       		  shadeClose: true,
+		       		  shade: 0.8,
+		       		  area: ['70%', '90%'],
+		       		  content: '/admin/admin_addUser',
+		       		  success: function (layero, index) {
+	        			var iframe = window['layui-layer-iframe' + index];
+	                  	iframe.addUser()
+	                }
+	       		});
 	        }
 	        //重新加载
 	        function reload(){
 	        	window.location.reload();
 	        }
 	    </script>
-		
-	
 	</body>
-
 </html>

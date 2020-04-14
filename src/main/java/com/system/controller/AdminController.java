@@ -10,11 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.system.pojo.User;
 import com.system.service.AdminService;
 import com.system.service.UserService;
 
+@SessionAttributes(value = {"user_name"})
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -32,18 +34,47 @@ public class AdminController {
 	@ResponseBody
 	public List<User> admin_getAllUsers(){
 		List<User> res = this.userService.getAllUsers();
-		System.out.println(res.size());
 		return res;
-	}
-	
-	@RequestMapping("/admin_editUserByName")
-	public String editRecord(HttpServletRequest request, HttpServletResponse response, Model model) {
-		return "admin_editUserByName";
 	}
 	
 	@RequestMapping("/admin_deleteUser")
 	@ResponseBody
-	public int admin_deleteUser(String username) {
-		return this.userService.deleteUser(username);
+	public int admin_deleteUser(String name) {
+		int res = this.userService.deleteUser(name);
+		//System.out.println(res);
+		return res;
+	}
+	
+	@RequestMapping("/admin_editUser")
+	public String admin_editUser(HttpServletRequest request, HttpServletResponse response, Model model) {
+		return "admin_editUser";
+	}
+	
+	@RequestMapping("/admin_getUserByName")
+	@ResponseBody
+	public User admin_getUserByName(String name){
+		User user = this.userService.getUserByName(name);
+		return user;
+	}
+	
+	@RequestMapping("/admin_updateByName")
+	@ResponseBody
+	public int admin_updateByName(String name, String gender, String age, String phone, String password){
+		User user = new User(name, gender, phone, Integer.parseInt(age), password);
+		int res = this.userService.updateUser(user);
+		return res;
+	}
+	
+	@RequestMapping("/admin_addUser")
+	public String admin_addUser(HttpServletRequest request, HttpServletResponse response, Model model) {
+		return "admin_addUser";
+	}
+	
+	@RequestMapping("/admin_insertUser")
+	@ResponseBody
+	public int admin_insertUser(String name, String gender, String age, String phone, String password){
+		User user = new User(name, gender, phone, Integer.parseInt(age), password);
+		int res = this.userService.insertUser(user);
+		return res;
 	}
 }
