@@ -25,20 +25,24 @@
 	            <div class="col-sm-12">
 	                <div class="ibox float-e-margins">
 	                    <div class="ibox-title">
-	                        <h5>格式模板 <small>列表</small></h5>
+	                        <h5>格式模板<small>列表</small></h5>
+	                        <div style="text-align:right">
+	                        	<a type="button" style="text-align:right;" class="btn btn-info" href="#" onclick=addTemplate()>添加模板</a>
+	                        </div>
 	                    </div>
 	                    <div class="ibox-content">
-	                        <table class="table table-striped table-bordered table-hover dataTables-example">
-	                            <thead>
-	                                <tr>
-	                                    <th>模板名称</th>
-	                                    <th>操作</th>
-	                                </tr>
-	                            </thead>
-	                            <tbody id="deptList">
-	                            
-	                            </tbody>
-	                        </table>
+	                    	<div>
+		                    	<table class="table table-striped table-bordered table-hover dataTables-example">
+		                            <thead>
+		                                <tr>
+		                                    <th>模板名称</th>
+		                                    <th>操作</th>
+		                                </tr>
+		                            </thead>
+		                            <tbody id="templateList">
+		                            </tbody>
+		                        </table>
+	                    	</div>
 	                    </div>
 	                </div>
 	            </div>
@@ -60,7 +64,7 @@
 	    <script>
 	        $(document).ready(function () {
 	        	$.ajax({
-	        		url: '/user/getTemplatesByName',
+	        		url: '/user/user_getTemplates',
 	        		type: 'POST',
 	        		dataType: 'JSON',
 	        		success: function(res){
@@ -74,8 +78,9 @@
 	                        ],
 	                        columnDefs:[{
 	                            targets: 1,
-	                            render: function (data, type, row) {
-	                                return '<a type="button" class="btn btn-info" href="#" onclick=register("' + row.id + '") >我要预约 </a>';
+	                            render: function (data, type, row, meta) {
+	                                return '<a type="button" class="btn btn-info" href="#" onclick=checkByName("' + row.name + '") >查看 </a>' 
+	                                		+ '<a type="button" class="btn btn-info" href="#" onclick=deleteByName("' + row.name + '") >删除</a>';
 	                            }
 	                        },
 	                            { "orderable": false, "targets": 1 },
@@ -83,32 +88,69 @@
 	                    } );
 	        		},
 	        		error: function(res){
-	        			layer.msg('新增失败');
+	        			layer.msg('显示失败');
 	        		}
 	        	});
 	        });
-	        function register(ID){
-	        	//根据科室id获取科室下的医生列表
+	        function deleteByName(name){
+	        	layer.confirm('确认删除吗？', {
+			  		  btn: ['确定','取消'] //按钮
+			  		}, function(name){
+			  			$.ajax({
+			        		url: '/user/user_deleteTemplate',
+			        		type: 'POST',
+			        		dataType: 'JSON',
+			        		data:{'name':name},
+			        		success: function(res){
+			        			if(res == 0){
+				        			layer.msg('删除失败');
+			        			}
+			        			else{
+			        				layer.alert('删除成功',function(index){
+	                					layer.close(index);
+	                					reload();
+	                				});
+			        			}
+			        		},
+			        		error: function(res){
+			        			layer.msg('删除失败');
+			        		}
+			        	});
+			  		}, function(){
+			  	});
+	        }
+	        function checkByName(name) {
 	        	layer.open({
-	      		  type: 2,
-	      		  title: '医生列表',
-	      		  shadeClose: true,
-	      		  shade: 0.8,
-	      		  area: ['90%', '80%'],
-	      		  content: '/patient/doctors_oneDept',
-	      		  success: function (layero, index) {
-	      			var iframe = window['layui-layer-iframe' + index];
-	                iframe.getDoctorByDeptId(ID)
-	              }
-	      		});
+		       		  type: 2,
+		       		  title: '模板格式',
+		       		  shadeClose: true,
+		       		  shade: 0.8,
+		       		  area: ['70%', '90%'],
+		       		  content: '/user/user_checkTemplate',
+		       		  success: function (layero, index) {
+	        			var iframe = window['layui-layer-iframe' + index];
+	                  	iframe.getFormat(name)
+	                }
+	       		});
+	        }
+	        function addTemplate() {
+	        	layer.open({
+		       		  type: 2,
+		       		  title: '用户信息',
+		       		  shadeClose: true,
+		       		  shade: 0.8,
+		       		  area: ['70%', '90%'],
+		       		  content: '/user/user_addTemplate',
+		       		  success: function (layero, index) {
+	        			var iframe = window['layui-layer-iframe' + index];
+	                  	iframe.addTemplate()
+	                }
+	       		});
 	        }
 	        //重新加载
 	        function reload(){
 	        	window.location.reload();
 	        }
 	    </script>
-		
-	
 	</body>
-
 </html>

@@ -15,7 +15,7 @@
 	    <script>if(window.top !== window.self){ window.top.location = window.location;}</script>
 	</head>
 	<body class="gray-bg">
-	    <div class="middle-box text-center loginscreen   animated fadeInDown">
+	    <div class="middle-box text-center loginscreen animated fadeInDown">
 	        <div>
 	            <h3>欢迎注册文档格式管理系统</h3>
 	            <p>创建一个新账户</p>
