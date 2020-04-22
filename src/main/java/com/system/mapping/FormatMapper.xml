@@ -3,8 +3,7 @@
 <mapper namespace="com.system.dao.FormatDao" >
   <resultMap id="BaseResultMap" type="com.system.pojo.Format" >
     <constructor >
-      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <idArg column="name" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="userName" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="type" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="location" jdbcType="INTEGER" javaType="java.lang.Integer" />
@@ -16,20 +15,17 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, userName, type, location, content, fontSize, fontColor, indent, alignment
+    name, userName, type, location, content, fontSize, fontColor, indent, alignment
   </sql>
   <insert id="insert" parameterType="com.system.pojo.Format" >
-    insert into format (id, name, userName, type, location, content, fontSize, fontColor, indent, alignment)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+    insert into format (name, userName, type, location, content, fontSize, fontColor, indent, alignment)
+    values (#{name,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
       #{location,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{fontSize,jdbcType=INTEGER}, 
       #{fontColor,jdbcType=VARCHAR}, #{indent,jdbcType=VARCHAR}, #{alignment,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.system.pojo.Format" >
     insert into format
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
       <if test="name != null" >
         name,
       </if>
@@ -59,9 +55,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
@@ -93,7 +86,7 @@
   </insert>
   <delete id="deleteBySelective" >
     delete from format
-    where name = #{0} and userName = #{1}
+    where name = #{arg0} and userName = #{arg1} and type = #{arg2}
   </delete>
   <select id="selectBySelective" resultMap="BaseResultMap" >
     select 

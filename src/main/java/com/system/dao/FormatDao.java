@@ -9,7 +9,7 @@ public interface FormatDao {
 
     int insertSelective(Format format);
     
-    int deleteBySelective(String name, String userName);
+    int deleteBySelective(String name, String userName, String type);
 
     Format selectBySelective(String name, String userName);
     

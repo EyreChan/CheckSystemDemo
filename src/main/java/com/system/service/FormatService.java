@@ -7,7 +7,7 @@ import java.util.List;
 public interface FormatService {
 	public Integer insertFormat(Format format);
 
-	public Integer deleteFormat(String name, String userName);
+	public Integer deleteFormat(String name, String userName, String type);
 	
 	public Format getFormatByName(String name, String userName);
 	

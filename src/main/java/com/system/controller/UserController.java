@@ -11,8 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.system.pojo.Format;
+import com.system.pojo.Template;
 import com.system.service.UserService;
+import com.system.service.TemplateService;
 import com.system.service.FormatService;
 
 @Controller
@@ -20,6 +21,8 @@ import com.system.service.FormatService;
 public class UserController {
 	@Autowired
 	private UserService userService = null;
+	@Autowired 
+	private TemplateService templateService = null;
 	@Autowired 
 	private FormatService formatService = null;
 	
@@ -30,7 +33,7 @@ public class UserController {
 	
 	@RequestMapping("/user_getTemplates")
 	@ResponseBody
-	public List<Format> user_getTemplates(HttpServletRequest request,Model model) {
+	public List<Template> user_getTemplates(HttpServletRequest request,Model model) {
 		HttpServletRequest req = (HttpServletRequest) request;
 		
 		String userName = null;
@@ -45,8 +48,46 @@ public class UserController {
 		}
 		
 		if(userName != null){
-			return this.formatService.getFormatsByUser(userName);
+			return this.templateService.getTemplatesByUser(userName);
 		}
 		return null;
+	}
+	
+	@RequestMapping("/user_deleteTemplate")
+	@ResponseBody
+	public int user_deleteTemplate(String name, HttpServletRequest request,Model model) {
+		HttpServletRequest req = (HttpServletRequest) request;
+		String userName = null;
+		
+		Cookie[] cookies = req.getCookies();
+		if(cookies!=null) {
+			for(Cookie cookie : cookies) {
+				if(cookie.getName().toString().equals("loginName")) {
+					userName = cookie.getValue();
+				}
+			}
+		}
+		
+		if(userName != null){
+			return this.templateService.deleteTemplate(name, userName);
+		}
+		return 0;
+	}
+	
+	@RequestMapping("/user_addTemplate")
+	public String user_addTemplate(HttpServletRequest request,Model model) {
+		return "user_addTemplate";
+	}
+	
+	@RequestMapping("/user_doupload")
+	@ResponseBody
+	public void user_doupload(HttpServletRequest request,Model model) {
+		String fileName=request.getParameter("nfile");
+		System.out.println(fileName);
+	}
+	
+	@RequestMapping("/user_checkTemplate")
+	public String user_checkTemplate(HttpServletRequest request,Model model) {
+		return "user_checkTemplate";
 	}
 }

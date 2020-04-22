@@ -79,7 +79,7 @@
 	                        columnDefs:[{
 	                            targets: 1,
 	                            render: function (data, type, row, meta) {
-	                                return '<a type="button" class="btn btn-info" href="#" onclick=checkByName("' + row.name + '") >查看 </a>' 
+	                                return '<a type="button" class="btn btn-info" href="#" onclick=checkByName("' + row.name + '") >查看</a>' 
 	                                		+ '<a type="button" class="btn btn-info" href="#" onclick=deleteByName("' + row.name + '") >删除</a>';
 	                            }
 	                        },
@@ -92,7 +92,8 @@
 	        		}
 	        	});
 	        });
-	        function deleteByName(name){
+	        function deleteByName(tempname){
+	        	//根据用户名删除用户信息
 	        	layer.confirm('确认删除吗？', {
 			  		  btn: ['确定','取消'] //按钮
 			  		}, function(name){
@@ -100,7 +101,7 @@
 			        		url: '/user/user_deleteTemplate',
 			        		type: 'POST',
 			        		dataType: 'JSON',
-			        		data:{'name':name},
+			        		data:{'name':tempname},
 			        		success: function(res){
 			        			if(res == 0){
 				        			layer.msg('删除失败');
@@ -119,31 +120,30 @@
 			  		}, function(){
 			  	});
 	        }
-	        function checkByName(name) {
+	        function addTemplate() {
 	        	layer.open({
 		       		  type: 2,
 		       		  title: '模板格式',
 		       		  shadeClose: true,
 		       		  shade: 0.8,
-		       		  area: ['70%', '90%'],
-		       		  content: '/user/user_checkTemplate',
+		       		  area: ['70%', '40%'],
+		       		  content: '/user/user_addTemplate',
 		       		  success: function (layero, index) {
 	        			var iframe = window['layui-layer-iframe' + index];
-	                  	iframe.getFormat(name)
 	                }
 	       		});
 	        }
-	        function addTemplate() {
+	        function checkByName(tempname) {
 	        	layer.open({
 		       		  type: 2,
 		       		  title: '用户信息',
 		       		  shadeClose: true,
 		       		  shade: 0.8,
 		       		  area: ['70%', '90%'],
-		       		  content: '/user/user_addTemplate',
+		       		  content: '/user/user_checkTemplate',
 		       		  success: function (layero, index) {
 	        			var iframe = window['layui-layer-iframe' + index];
-	                  	iframe.addTemplate()
+	                  	iframe.getTemplate(tempname)
 	                }
 	       		});
 	        }

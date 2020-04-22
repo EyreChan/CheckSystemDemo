@@ -78,9 +78,6 @@
 	    <script type="text/javascript" src="/static/js/jquery.cookie.js"></script>
 	</body>
 	<script type="text/javascript">
-		$(document).ready(
-			);
-		
 		function loginOut(){
 			layer.confirm('确认退出吗？', {
 		  		  btn: ['确定','取消'] //按钮

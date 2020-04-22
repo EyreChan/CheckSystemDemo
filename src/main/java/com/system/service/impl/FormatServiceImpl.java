@@ -18,8 +18,8 @@ public class FormatServiceImpl implements FormatService {
 		return this.formatDao.insertSelective(format);
 	}
 	
-	public Integer deleteFormat(String name, String userName) {
-		return this.formatDao.deleteBySelective(name, userName);
+	public Integer deleteFormat(String name, String userName, String type) {
+		return this.formatDao.deleteBySelective(name, userName, type);
 	}
 	
 	public Format getFormatByName(String name, String userName) {

@@ -1,8 +1,6 @@
 package com.system.pojo;
 
 public class Format {
-	private Integer id;
-	
 	private String name;
 
     private String userName;
@@ -21,8 +19,7 @@ public class Format {
     
     private String alignment;
 
-    public Format(Integer id, String name, String userName, String type, Integer location, String content, Integer fontSize, String fontColor, String indent, String alignment) {
-        this.id = id;
+    public Format(String name, String userName, String type, Integer location, String content, Integer fontSize, String fontColor, String indent, String alignment) {
     	this.name = name;
         this.userName = userName;
         this.type = type;
@@ -40,14 +37,6 @@ public class Format {
 
     public String getName() {
         return name;
-    }
-
-    public void setId(Integer id) {
-    	this.id = id;
-    }
-    
-    public Integer getId() {
-    	return id;
     }
     
     public void setName(String name) {
