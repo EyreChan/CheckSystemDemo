@@ -56,6 +56,8 @@ public class UserController {
 	@RequestMapping("/user_deleteTemplate")
 	@ResponseBody
 	public int user_deleteTemplate(String name, HttpServletRequest request,Model model) {
+		int res = 0, res1 = 0, res2 = 0;
+		
 		HttpServletRequest req = (HttpServletRequest) request;
 		String userName = null;
 		
@@ -69,9 +71,14 @@ public class UserController {
 		}
 		
 		if(userName != null){
-			return this.templateService.deleteTemplate(name, userName);
+			res1 = this.templateService.deleteTemplate(name, userName);
+			res2 = this.formatService.deleteFormat(name, userName, "template");
+			//System.out.println(res1);
+			//System.out.println(res2);
+			res = ((res1 > 0) && (res2 > 0)) ? 1 : 0;
+			//System.out.println(res);
 		}
-		return 0;
+		return res;
 	}
 	
 	@RequestMapping("/user_addTemplate")

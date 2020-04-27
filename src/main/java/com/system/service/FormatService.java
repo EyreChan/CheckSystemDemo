@@ -9,7 +9,5 @@ public interface FormatService {
 
 	public Integer deleteFormat(String name, String userName, String type);
 	
-	public Format getFormatByName(String name, String userName);
-	
-	public List<Format> getFormatsByUser(String userName);
+	public List<Format> getFormatByName(String name, String userName);
 }

@@ -1,13 +1,13 @@
 package com.system.pojo;
 
 public class Format {
+    private Integer location;
+    
 	private String name;
 
     private String userName;
 
     private String type;
-
-    private Integer location;
 
     private String content;
     
@@ -18,17 +18,20 @@ public class Format {
     private String indent;
     
     private String alignment;
+    
+    private Integer rowSpacing;
 
-    public Format(String name, String userName, String type, Integer location, String content, Integer fontSize, String fontColor, String indent, String alignment) {
-    	this.name = name;
+    public Format(Integer location, String name, String userName, String type, String content, Integer fontSize, String fontColor, String indent, String alignment, Integer rowSpacing) {
+        this.location = location;
+        this.name = name;
         this.userName = userName;
         this.type = type;
-        this.location = location;
         this.content = content;
         this.fontSize = fontSize;
         this.fontColor = fontColor;
         this.indent = indent;
         this.alignment = alignment;
+        this.rowSpacing = rowSpacing;
     }
 
     public Format() {
@@ -105,5 +108,13 @@ public class Format {
     
     public void setAlignment(String alignment) {
     	this.alignment = alignment;
+    }
+    
+    public int getRowSpacing() {
+    	return rowSpacing;
+    }
+    
+    public void setRowSpacing(int rowSpacing) {
+    	this.rowSpacing = rowSpacing;
     }
 }

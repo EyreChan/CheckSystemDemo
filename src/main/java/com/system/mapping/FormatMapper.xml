@@ -3,29 +3,34 @@
 <mapper namespace="com.system.dao.FormatDao" >
   <resultMap id="BaseResultMap" type="com.system.pojo.Format" >
     <constructor >
-      <idArg column="name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <idArg column="location" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="name" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="userName" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="type" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="location" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="content" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="fontSize" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="fontColor" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="indent" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="alignment" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="rowSpacing" jdbcType="INTEGER" javaType="java.lang.Integer" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List" >
-    name, userName, type, location, content, fontSize, fontColor, indent, alignment
+    location, name, userName, type, content, fontSize, fontColor, indent, alignment, rowSpacing
   </sql>
   <insert id="insert" parameterType="com.system.pojo.Format" >
-    insert into format (name, userName, type, location, content, fontSize, fontColor, indent, alignment)
+    insert into format (name, userName, type, location, content, fontSize, fontColor, indent, alignment, rowSpacing)
     values (#{name,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
       #{location,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{fontSize,jdbcType=INTEGER}, 
-      #{fontColor,jdbcType=VARCHAR}, #{indent,jdbcType=VARCHAR}, #{alignment,jdbcType=VARCHAR})
+      #{fontColor,jdbcType=VARCHAR}, #{indent,jdbcType=VARCHAR}, #{alignment,jdbcType=VARCHAR}),
+      #{rowSpacing,jdbcType=INTEGER}
   </insert>
   <insert id="insertSelective" parameterType="com.system.pojo.Format" >
     insert into format
     <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="location != null" >
+        location,
+      </if>
       <if test="name != null" >
         name,
       </if>
@@ -34,9 +39,6 @@
       </if>
       <if test="type != null" >
         type,
-      </if>
-      <if test="location != null" >
-        location,
       </if>
       <if test="content != null" >
         content,
@@ -53,8 +55,14 @@
       <if test="alignment != null" >
         alignment,
       </if>
+      <if test="rowSpacing != null" >
+        rowSpacing,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="location != null" >
+        #{location,jdbcType=INTEGER},
+      </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
@@ -63,9 +71,6 @@
       </if>
       <if test="type != null" >
         #{type,jdbcType=VARCHAR},
-      </if>
-      <if test="location != null" >
-        #{location,jdbcType=INTEGER},
       </if>
       <if test="content != null" >
         #{content,jdbcType=VARCHAR},
@@ -82,6 +87,9 @@
       <if test="alignment != null" >
         #{alignment,jdbcType=VARCHAR},
       </if>
+      <if test="rowSpacing != null" >
+        #{rowSpacing,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <delete id="deleteBySelective" >
@@ -92,12 +100,6 @@
     select 
     <include refid="Base_Column_List" />
     from format
-    where name = #{0} and userName = #{1}
-  </select>
-  <select id="selectFormatsByUser" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from format
-    where userName = #{userName,jdbcType=VARCHAR}
+    where name = #{arg0} and userName = #{arg1}
   </select>
 </mapper>

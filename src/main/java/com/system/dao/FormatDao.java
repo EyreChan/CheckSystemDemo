@@ -11,7 +11,5 @@ public interface FormatDao {
     
     int deleteBySelective(String name, String userName, String type);
 
-    Format selectBySelective(String name, String userName);
-    
-    List<Format> selectFormatsByUser(String userName);
+    List<Format> selectBySelective(String name, String userName);
 }

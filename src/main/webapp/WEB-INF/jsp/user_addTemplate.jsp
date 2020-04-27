@@ -59,7 +59,9 @@
 		        			layer.msg('保存失败');
 	        			}
 	        			else{
-	        				layer.msg('保存失败');
+	        				layer.msg('保存成功');
+        					layer.close(index);
+        					reload();
 	        			}
 		       		},
 		    		error: function(res){

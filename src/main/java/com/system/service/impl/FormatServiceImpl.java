@@ -22,11 +22,7 @@ public class FormatServiceImpl implements FormatService {
 		return this.formatDao.deleteBySelective(name, userName, type);
 	}
 	
-	public Format getFormatByName(String name, String userName) {
+	public List<Format> getFormatByName(String name, String userName) {
 		return this.formatDao.selectBySelective(name, userName);
-	}
-	
-	public List<Format> getFormatsByUser(String userName) {
-		return this.formatDao.selectFormatsByUser(userName);
 	}
 }
