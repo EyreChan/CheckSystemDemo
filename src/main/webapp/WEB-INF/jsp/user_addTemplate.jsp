@@ -60,8 +60,9 @@
 	        			}
 	        			else{
 	        				layer.msg('保存成功');
-        					layer.close(index);
-        					reload();
+	        				var index = parent.layer.getFrameIndex(window.name);  
+        				 	parent.layer.close(index);
+        				 	window.parent.location.reload(); 
 	        			}
 		       		},
 		    		error: function(res){

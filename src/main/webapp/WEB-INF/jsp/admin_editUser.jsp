@@ -116,7 +116,7 @@
 		        			layer.msg('保存失败');
 	        			}
 	        			else{
-	        				layer.msg('保存成功');
+        				 	window.parent.location.reload(); 
 	        			}
 		       		},
 		    		error: function(res){

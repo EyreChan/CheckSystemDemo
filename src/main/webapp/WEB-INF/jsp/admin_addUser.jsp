@@ -78,14 +78,14 @@
 		       		dataType: 'JSON',
 		       		success: function(res){
 		       			if(res == 0){
-		        			layer.msg('保存失败');
+		        			layer.msg('添加失败');
 	        			}
 	        			else{
-	        				layer.msg('保存失败');
+        				 	window.parent.location.reload(); 
 	        			}
 		       		},
 		    		error: function(res){
-		    			layer.msg('保存失败');
+		    			layer.msg('添加失败');
 		    		}
 				});
 			}
