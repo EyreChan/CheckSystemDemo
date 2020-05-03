@@ -18,6 +18,10 @@
     delete from template
     where name = #{arg0} and userName = #{arg1}
   </delete>
+  <delete id="deleteByUser" >
+    delete from template
+    where userName = #{arg0}
+  </delete>
   <select id="selectBySelective" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />

@@ -21,6 +21,11 @@ public class TemplateServiceImpl implements TemplateService {
 	public Integer deleteTemplate(String name, String userName) {
 		return this.templateDao.deleteBySelective(name, userName);
 	}
+	
+	public Integer deleteTemplateByUser(String userName) {
+		return this.templateDao.deleteByUser(userName);
+	}
+	
 	public List<Template> getTemplatesByUser(String userName) {
 		return this.templateDao.selectTemplatesByUser(userName);
 	}

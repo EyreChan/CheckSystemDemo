@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.system.dao.SFormatDao" >
+  <resultMap id="BaseResultMap" type="com.system.pojo.SFormat" >
+    <constructor >
+      <arg column="name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="userName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="docType" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="styleName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="fontASC" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="fontEAST" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="fontSZ" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="fontSZCS" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="alignment" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    name, userName, docType, styleName, fontASC, fontEAST, fontSZ, fontSZCS, alignment
+  </sql>
+  <insert id="insert" parameterType="com.system.pojo.SFormat" >
+    insert into sformat (name, userName, docType, styleName, fontASC, fontEAST, fontSZ, fontSZCS, alignment)
+    values (#{name,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{docType,jdbcType=VARCHAR}, 
+      #{styleName,jdbcType=VARCHAR}, #{fontASC,jdbcType=VARCHAR}, #{fontEAST,jdbcType=VARCHAR},
+      #{fontSZ,jdbcType=INTEGER}, #{fontSZCS,jdbcType=INTEGER}, #{alignment,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.system.pojo.SFormat" >
+    insert into sformat
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="userName != null" >
+        userName,
+      </if>
+      <if test="docType != null" >
+        docType,
+      </if>
+      <if test="styleName != null" >
+        styleName,
+      </if>     
+      <if test="fontASC != null" >
+        fontASC,
+      </if>      
+      <if test="fontEAST != null" >
+        fontEAST,
+      </if>
+      <if test="fontSZ != null" >
+        fontSZ,
+      </if>
+      <if test="fontSZCS != null" >
+        fontSZCS,
+      </if>
+      <if test="alignment != null" >
+        alignment,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="docType != null" >
+        #{docType,jdbcType=VARCHAR},
+      </if>
+      <if test="styleName != null" >
+        #{styleName,jdbcType=VARCHAR},
+      </if>
+      <if test="fontASC != null" >
+        #{fontASC,jdbcType=VARCHAR},
+      </if>
+      <if test="fontEAST != null" >
+        #{fontEAST,jdbcType=VARCHAR},
+      </if>
+      <if test="fontSZ != null" >
+        #{fontSZ,jdbcType=INTEGER},
+      </if>
+      <if test="fontSZCS != null" >
+        #{fontSZCS,jdbcType=INTEGER},
+      </if>
+      <if test="alignment != null" >
+        #{alignment,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <delete id="deleteBySelective" >
+    delete from sformat
+    where name = #{arg0} and userName = #{arg1} and docType = #{arg2}
+  </delete>
+  <delete id="deleteByUser" >
+    delete from sformat
+    where userName = #{arg0}
+  </delete>
+  <select id="selectBySelective" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from sformat
+    where name = #{arg0} and userName = #{arg1}
+  </select>
+</mapper>

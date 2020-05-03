@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.system.pojo.User;
 import com.system.service.AdminService;
+import com.system.service.DFormatService;
+import com.system.service.TemplateService;
 import com.system.service.UserService;
 
 @Controller
@@ -22,6 +24,10 @@ public class AdminController {
 	private AdminService adminService = null;
 	@Autowired
 	private UserService userService = null;
+	@Autowired
+	private TemplateService templateService = null;
+	@Autowired
+	private DFormatService dformatService = null;
 	
 	@RequestMapping("/admin_manageUser")
 	public String admin_manageUser(HttpServletRequest request,Model model) {
@@ -39,6 +45,8 @@ public class AdminController {
 	@ResponseBody
 	public int admin_deleteUser(String name) {
 		int res = this.userService.deleteUser(name);
+		this.templateService.deleteTemplateByUser(name);
+		this.dformatService.deleteFormatByUser(name);
 		//System.out.println(res);
 		return res;
 	}

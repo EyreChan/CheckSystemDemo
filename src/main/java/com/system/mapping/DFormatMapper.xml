@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.system.dao.DFormatDao" >
+  <resultMap id="BaseResultMap" type="com.system.pojo.DFormat" >
+    <constructor >
+      <idArg column="location" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="userName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="docType" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="content" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="fontType" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="fontSize" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="fontColor" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="indent" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="alignment" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="rowSpacing" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    location, name, userName, docType, content, fontType, fontSize, fontColor, indent, alignment, rowSpacing
+  </sql>
+  <insert id="insert" parameterType="com.system.pojo.DFormat" >
+    insert into dformat (name, userName, docType, location, content, fontType, fontSize, fontColor, indent, alignment, rowSpacing)
+    values (#{name,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{docType,jdbcType=VARCHAR}, 
+      #{location,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{fontType,jdbcType=VARCHAR},
+      #{fontSize,jdbcType=INTEGER}, #{fontColor,jdbcType=VARCHAR}, #{indent,jdbcType=VARCHAR}, 
+      #{alignment,jdbcType=VARCHAR}), #{rowSpacing,jdbcType=INTEGER}
+  </insert>
+  <insert id="insertSelective" parameterType="com.system.pojo.DFormat" >
+    insert into dformat
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="location != null" >
+        location,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="userName != null" >
+        userName,
+      </if>
+      <if test="docType != null" >
+        docType,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>     
+      <if test="fontType != null" >
+        fontType,
+      </if>
+      <if test="fontSize != null" >
+        fontSize,
+      </if>
+      <if test="fontColor != null" >
+        fontColor,
+      </if>
+      <if test="indent != null" >
+        indent,
+      </if>
+      <if test="alignment != null" >
+        alignment,
+      </if>
+      <if test="rowSpacing != null" >
+        rowSpacing,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="location != null" >
+        #{location,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="docType != null" >
+        #{docType,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="fontType != null" >
+        #{fontType,jdbcType=VARCHAR},
+      </if>
+      <if test="fontSize != null" >
+        #{fontSize,jdbcType=INTEGER},
+      </if>
+      <if test="fontColor != null" >
+        #{fontColor,jdbcType=VARCHAR},
+      </if>
+      <if test="indent != null" >
+        #{indent,jdbcType=VARCHAR},
+      </if>
+      <if test="alignment != null" >
+        #{alignment,jdbcType=VARCHAR},
+      </if>
+      <if test="rowSpacing != null" >
+        #{rowSpacing,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <delete id="deleteBySelective" >
+    delete from dformat
+    where name = #{arg0} and userName = #{arg1} and docType = #{arg2}
+  </delete>
+  <delete id="deleteByUser" >
+    delete from dformat
+    where userName = #{arg0}
+  </delete>
+  <select id="selectBySelective" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from dformat
+    where name = #{arg0} and userName = #{arg1}
+  </select>
+</mapper>

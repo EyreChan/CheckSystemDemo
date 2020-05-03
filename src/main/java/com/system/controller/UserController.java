@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.system.pojo.Template;
 import com.system.service.UserService;
 import com.system.service.TemplateService;
-import com.system.service.FormatService;
+import com.system.service.DFormatService;
+import com.system.service.SFormatService;
 
 @Controller
 @RequestMapping("/user")
@@ -24,7 +25,9 @@ public class UserController {
 	@Autowired 
 	private TemplateService templateService = null;
 	@Autowired 
-	private FormatService formatService = null;
+	private DFormatService dformatService = null;
+	@Autowired 
+	private SFormatService sformatService = null;
 	
 	@RequestMapping("/user_manageTemplate")
 	public String user_manageTemplate(HttpServletRequest request,Model model) {
@@ -56,7 +59,7 @@ public class UserController {
 	@RequestMapping("/user_deleteTemplate")
 	@ResponseBody
 	public int user_deleteTemplate(String name, HttpServletRequest request,Model model) {
-		int res = 0, res1 = 0, res2 = 0;
+		int res = 0;
 		
 		HttpServletRequest req = (HttpServletRequest) request;
 		String userName = null;
@@ -71,12 +74,9 @@ public class UserController {
 		}
 		
 		if(userName != null){
-			res1 = this.templateService.deleteTemplate(name, userName);
-			res2 = this.formatService.deleteFormat(name, userName, "template");
-			//System.out.println(res1);
-			//System.out.println(res2);
-			res = ((res1 > 0) && (res2 > 0)) ? 1 : 0;
-			//System.out.println(res);
+			this.dformatService.deleteFormat(name, userName, "template");
+			this.sformatService.deleteFormat(name, userName, "template");
+			res = this.templateService.deleteTemplate(name, userName);
 		}
 		return res;
 	}
@@ -86,15 +86,13 @@ public class UserController {
 		return "user_addTemplate";
 	}
 	
-	@RequestMapping("/user_doupload")
-	@ResponseBody
-	public void user_doupload(HttpServletRequest request,Model model) {
-		String fileName=request.getParameter("nfile");
-		System.out.println(fileName);
+	@RequestMapping("/user_checkDoc")
+	public String user_checkDoc(HttpServletRequest request,Model model) {
+		return "user_checkDoc";
 	}
 	
-	@RequestMapping("/user_checkTemplate")
-	public String user_checkTemplate(HttpServletRequest request,Model model) {
-		return "user_checkTemplate";
+	@RequestMapping("/user_checkStyle")
+	public String user_checkStyle(HttpServletRequest request,Model model) {
+		return "user_checkStyle";
 	}
 }

@@ -8,6 +8,7 @@ public interface TemplateService {
 	public Integer insertTemplate(Template template);
 
 	public Integer deleteTemplate(String name, String userName);
+	public Integer deleteTemplateByUser(String userName);
 	
 	public List<Template> getTemplatesByUser(String userName);
 	public Template getTemplateByName(String name, String userName);

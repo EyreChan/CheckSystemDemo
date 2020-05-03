@@ -36,6 +36,8 @@
 		                            <thead>
 		                                <tr>
 		                                    <th>模板名称</th>
+		                                    <th>document</th>
+		                                    <th>style</th>
 		                                    <th>操作</th>
 		                                </tr>
 		                            </thead>
@@ -79,11 +81,22 @@
 	                        columnDefs:[{
 	                            targets: 1,
 	                            render: function (data, type, row, meta) {
-	                                return '<a type="button" class="btn btn-info" href="#" onclick=checkByName("' + row.name + '") >查看</a>' 
-	                                		+ '<a type="button" class="btn btn-info" href="#" onclick=deleteByName("' + row.name + '") >删除</a>';
+	                                return '<a type="button" class="btn btn-info" href="#" onclick=checkDocFormat("' + row.name + '") >查看</a>';
+	                            }
+	                        }, {
+                            	targets: 2,
+                            	render: function (data, type, row, meta) {
+	                                return '<a type="button" class="btn btn-info" href="#" onclick=checkStyleFormat("' + row.name + '") >查看</a>';
+	                            }
+	                        },{
+	                        	targets: 3,
+                            	render: function (data, type, row, meta) {
+	                                return '<a type="button" class="btn btn-info" href="#" onclick=deleteByName("' + row.name + '") >删除</a>';
 	                            }
 	                        },
 	                            { "orderable": false, "targets": 1 },
+	                            { "orderable": false, "targets": 2 },
+	                            { "orderable": false, "targets": 3 },
 	                        ],
 	                    } );
 	        		},
@@ -133,17 +146,31 @@
 	                }
 	       		});
 	        }
-	        function checkByName(tempname) {
+	        function checkDocFormat(tempname) {
 	        	layer.open({
 		       		  type: 2,
-		       		  title: '用户信息',
+		       		  title: 'document',
 		       		  shadeClose: true,
 		       		  shade: 0.8,
-		       		  area: ['70%', '90%'],
-		       		  content: '/user/user_checkTemplate',
+		       		  area: ['100%', '100%'],
+		       		  content: '/user/user_checkDoc',
 		       		  success: function (layero, index) {
 	        			var iframe = window['layui-layer-iframe' + index];
-	                  	iframe.getTemplate(tempname)
+	                  	iframe.getDoc(tempname)
+	                }
+	       		});
+	        }
+	        function checkStyleFormat(tempname) {
+	        	layer.open({
+		       		  type: 2,
+		       		  title: 'style',
+		       		  shadeClose: true,
+		       		  shade: 0.8,
+		       		  area: ['100%', '100%'],
+		       		  content: '/user/user_checkStyle',
+		       		  success: function (layero, index) {
+	        			var iframe = window['layui-layer-iframe' + index];
+	                  	iframe.getStyle(tempname)
 	                }
 	       		});
 	        }
