@@ -40,7 +40,7 @@ public class SFormat {
     }
     
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.name = name;
     }
 
     public String getUserName() {
@@ -48,7 +48,7 @@ public class SFormat {
     }
 
     public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
+        this.userName = userName;
     }
     
     public String getDocType() {

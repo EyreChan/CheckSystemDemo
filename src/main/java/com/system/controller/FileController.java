@@ -32,7 +32,6 @@ import com.system.pojo.Template;
 import com.system.service.DFormatService;
 import com.system.service.SFormatService;
 import com.system.service.TemplateService;
-import com.aspose.words.Document;
 
 @Controller
 @RequestMapping("/file")
@@ -46,7 +45,7 @@ public class FileController {
 	
 	@RequestMapping("/file_parserDocx")
 	@ResponseBody
-	public int file_parserDocx(String path, String name, HttpServletRequest request,Model model) throws Exception {
+	public int file_parserDocx(String path, String name, String type, HttpServletRequest request,Model model) throws Exception {
 		HttpServletRequest req = (HttpServletRequest) request;
 		
 		int len = name.length();
@@ -69,15 +68,21 @@ public class FileController {
 						}
 					}
 				}
+				
 				Template template = new Template(name, userName);
 				
-				res1 = parserDocx1(name, userName, path + "\\" + name, req);
+				res1 = parserDocx1(name, userName, path + "\\" + name, type, req);
 				if(res1 == 1) {
-					res2 = parserDocx2(name, userName, path + "\\" + name, req);
+					res2 = parserDocx2(name, userName, path + "\\" + name, type, req);
 				}
 				
 				if(res2 == 1) {
-					return this.templateService.insertTemplate(template);
+					if(type.equals("template")) {
+						return this.templateService.insertTemplate(template);
+					}
+					else {
+						return 1;
+					}
 				}
 				else {
 					return 0;
@@ -92,7 +97,7 @@ public class FileController {
 		return 0;
 	}
 	
-	private int parserDocx1(String name, String userName, String inputfilepath, HttpServletRequest req) throws Exception {
+	private int parserDocx1(String name, String userName, String inputfilepath, String type, HttpServletRequest req) throws Exception {
 		int res = 0;
 		
 		WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage
@@ -104,11 +109,11 @@ public class FileController {
 		Body body = wmlDocumentEl.getBody();
 		List<Object> bodyChildren = body.getContent();//.getEGBlockLevelElts();
 		
-		res = walkJAXBElements(name, userName, inputfilepath, bodyChildren);
+		res = walkJAXBElements(name, userName, inputfilepath, type, bodyChildren);
 		return res;
 	}
 	
-	private int parserDocx2(String name, String userName, String inputfilepath, HttpServletRequest req) throws Exception {
+	private int parserDocx2(String name, String userName, String inputfilepath, String type, HttpServletRequest req) throws Exception {
 		int res = 0;
 		
 		try {
@@ -125,7 +130,6 @@ public class FileController {
 					System.out.println("name: " + style.getName().getVal());
 					System.out.println("************************");
 					
-					String docType = "template";
 					String styleName = style.getName().getVal();
 					String fontASC = "无";
 					String fontEAST = "无";
@@ -158,7 +162,7 @@ public class FileController {
 						}
 					}
 					
-					SFormat format = new SFormat(name, userName, docType, styleName, fontASC, fontEAST, fontSZ, fontSZCS, alignment);
+					SFormat format = new SFormat(name, userName, type, styleName, fontASC, fontEAST, fontSZ, fontSZCS, alignment);
 					res = this.sformatService.insertFormat(format);
 					if(res == 0) {
 						return 0;
@@ -175,7 +179,7 @@ public class FileController {
 		return res;
 	}
 	
-	private int walkJAXBElements(String name, String userName, String inputpath, List<Object> bodyChildren) {		
+	private int walkJAXBElements(String name, String userName, String inputpath, String type, List<Object> bodyChildren) {		
 		ArrayList<String> lss = new ArrayList<String>();
 		int res = 0;
 		Integer location = 0;
@@ -185,7 +189,6 @@ public class FileController {
 			} 
 			else if (o instanceof org.docx4j.wml.P) {
 				try {
-					String docType = "template";
 					String content = "无";
 					String fontType = "无";
 					Integer fontSize = -1;
@@ -249,7 +252,7 @@ public class FileController {
 								rowSpacing = ppr.getSpacing().getLine().intValue();
 							}
 						}
-						DFormat format = new DFormat(location, name, userName, docType, content, fontType, fontSize, fontColor, indent, alignment, rowSpacing);
+						DFormat format = new DFormat(location, name, userName, type, content, fontType, fontSize, fontColor, indent, alignment, rowSpacing);
 						res = this.dformatService.insertFormat(format);
 						if(res == 0) {
 							return 0;

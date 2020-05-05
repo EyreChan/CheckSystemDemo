@@ -51,7 +51,8 @@
 	        		type: 'POST',
 	        		data:{
 	        			'path':filePath,
-	        			'name':fileName
+	        			'name':fileName,
+	        			'type':"template"
 	        		},
 		       		dataType: 'JSON',
 		       		success: function(res){

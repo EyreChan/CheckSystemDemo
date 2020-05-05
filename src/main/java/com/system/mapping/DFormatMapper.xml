@@ -19,13 +19,6 @@
   <sql id="Base_Column_List" >
     location, name, userName, docType, content, fontType, fontSize, fontColor, indent, alignment, rowSpacing
   </sql>
-  <insert id="insert" parameterType="com.system.pojo.DFormat" >
-    insert into dformat (name, userName, docType, location, content, fontType, fontSize, fontColor, indent, alignment, rowSpacing)
-    values (#{name,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{docType,jdbcType=VARCHAR}, 
-      #{location,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{fontType,jdbcType=VARCHAR},
-      #{fontSize,jdbcType=INTEGER}, #{fontColor,jdbcType=VARCHAR}, #{indent,jdbcType=VARCHAR}, 
-      #{alignment,jdbcType=VARCHAR}), #{rowSpacing,jdbcType=INTEGER}
-  </insert>
   <insert id="insertSelective" parameterType="com.system.pojo.DFormat" >
     insert into dformat
     <trim prefix="(" suffix=")" suffixOverrides="," >

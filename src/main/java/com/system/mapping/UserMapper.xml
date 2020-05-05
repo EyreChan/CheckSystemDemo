@@ -13,11 +13,6 @@
   <sql id="Base_Column_List" >
     name, gender, phone, age, password
   </sql>
-  <insert id="insert" parameterType="com.system.pojo.User" >
-    insert into user (name, gender, phone, age, password)
-    values (#{name,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR})
-  </insert>
   <insert id="insertSelective" parameterType="com.system.pojo.User" >
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides="," >

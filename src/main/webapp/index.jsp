@@ -45,6 +45,11 @@
 	                        </a>
 	                    </li>
 	                    <li>
+	                        <a class="J_menuItem" href="/user/user_getResult">
+		                        <span class="nav-label">审查结果</span>
+	                        </a>
+	                    </li>
+	                    <li>
 	                        <a class="J_menuItem" onclick="loginOut()">
 		                        <span class="nav-label">退出登录</span>
 	                        </a>

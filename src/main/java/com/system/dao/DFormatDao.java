@@ -5,8 +5,6 @@ import java.util.List;
 import com.system.pojo.DFormat;
 
 public interface DFormatDao {
-	int insert(DFormat dformat);
-
     int insertSelective(DFormat dformat);
     
     int deleteBySelective(String name, String userName, String type);

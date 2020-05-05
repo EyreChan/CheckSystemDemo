@@ -95,4 +95,14 @@ public class UserController {
 	public String user_checkStyle(HttpServletRequest request,Model model) {
 		return "user_checkStyle";
 	}
+	
+	@RequestMapping("/user_checkFormat")
+	public String user_checkFormat(HttpServletRequest request,Model model) {
+		return "user_checkFormat";
+	}
+	
+	@RequestMapping("/user_getResult")
+	public String user_getResult(HttpServletRequest request,Model model) {
+		return "user_getResult";
+	}
 }

@@ -17,12 +17,6 @@
   <sql id="Base_Column_List" >
     name, userName, docType, styleName, fontASC, fontEAST, fontSZ, fontSZCS, alignment
   </sql>
-  <insert id="insert" parameterType="com.system.pojo.SFormat" >
-    insert into sformat (name, userName, docType, styleName, fontASC, fontEAST, fontSZ, fontSZCS, alignment)
-    values (#{name,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{docType,jdbcType=VARCHAR}, 
-      #{styleName,jdbcType=VARCHAR}, #{fontASC,jdbcType=VARCHAR}, #{fontEAST,jdbcType=VARCHAR},
-      #{fontSZ,jdbcType=INTEGER}, #{fontSZCS,jdbcType=INTEGER}, #{alignment,jdbcType=VARCHAR})
-  </insert>
   <insert id="insertSelective" parameterType="com.system.pojo.SFormat" >
     insert into sformat
     <trim prefix="(" suffix=")" suffixOverrides="," >

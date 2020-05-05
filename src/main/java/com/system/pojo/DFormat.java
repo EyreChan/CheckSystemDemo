@@ -46,7 +46,7 @@ public class DFormat {
     }
     
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.name = name;
     }
 
     public String getUserName() {
@@ -54,7 +54,7 @@ public class DFormat {
     }
 
     public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
+        this.userName = userName;
     }
     
     public String getDocType() {
@@ -78,7 +78,7 @@ public class DFormat {
     }
 
     public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
+        this.content = content;
     }
     
     public String getFontType() {

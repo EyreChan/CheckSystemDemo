@@ -7,13 +7,13 @@ import java.util.List;
 public interface UserService {
 	public Integer insertUser(User user);
 
-	public Integer deleteUser(String username);
+	public Integer deleteUser(String userName);
 	
-	public User getUserByName(String username);
+	public User getUserByName(String userName);
 	
 	public List<User> getAllUsers();
 	
-	public Integer updatePassword(String username, String password);
+	public Integer updatePassword(String userName, String password);
 	
 	public Integer updateUser(User user);
 }
