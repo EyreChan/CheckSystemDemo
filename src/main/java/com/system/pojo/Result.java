@@ -9,17 +9,17 @@ public class Result {
 
     private String errType;
 
-    private String errContext;
+    private String errContent;
 
-    private String rightContext;
+    private String rightContent;
     
-    public Result(String userName, Integer errLocation, String context, String errType, String errContext, String rightContext) {
+    public Result(String userName, Integer errLocation, String context, String errType, String errContent, String rightContent) {
         this.userName = userName;
         this.errLocation = errLocation;
         this.context = context;
         this.errType = errType;
-        this.errContext = errContext;
-        this.rightContext = rightContext;
+        this.errContent = errContent;
+        this.rightContent = rightContent;
     }   
 
     public Result() {
@@ -58,19 +58,19 @@ public class Result {
         this.errType = errType;
     }
     
-    public String getErrContext() {
-    	return errContext;
+    public String getErrContent() {
+    	return errContent;
     }
     
-    public void setErrContext(String errContext) {
-    	this.errContext = errContext;
+    public void setErrContent(String errContent) {
+    	this.errContent = errContent;
     }
     
-    public String getRightContext() {
-    	return rightContext;
+    public String getRightContent() {
+    	return rightContent;
     }
     
-    public void setRightContext(String rightContext) {
-    	this.rightContext = rightContext;
+    public void setRightContent(String rightContent) {
+    	this.rightContent = rightContent;
     }
 }

@@ -25,24 +25,21 @@
 	            <div class="col-sm-12">
 	                <div class="ibox float-e-margins">
 	                    <div class="ibox-title">
-	                        <h5>document</h5>
+	                        <h5>result</h5>
 	                    </div>
 	                    <div class="ibox-content">
 	                    	<div>
 		                    	<table class="table table-striped table-bordered table-hover dataTables-example">
 		                            <thead>
 		                                <tr>
-		                                	<th>位置</th>
-		                                	<th>内容</th>
-		                                	<th>字体类型</th>
-		                                	<th>字体大小</th>
-		                                	<th>缩进</th>
-		                                	<th>对齐方式</th>
-		                                	<th>行距</th>
-		                                	<th>字体颜色</th>
+		                                	<th>错误位置</th>
+		                                	<th>文本内容</th>
+		                                	<th>错误类型</th>
+		                                	<th>错误内容</th>
+		                                	<th>正确内容</th>
 		                                </tr>
 		                            </thead>
-		                            <tbody id="formatList">
+		                            <tbody id="resultList">
 		                            </tbody>
 		                        </table>
 	                    	</div>
@@ -65,34 +62,30 @@
 	
 	    <!-- Page-Level Scripts -->
 	    <script>
-	    	function getDoc(tempname){
-	        	$.ajax({
-	        		url: '/file/file_getDocFormat',
+	    $(document).ready(function () {
+        	$.ajax({
+	        		url: '/user/user_getResults',
 	        		type: 'POST',
 	        		dataType: 'JSON',
-	        		data:{'name':tempname},
 	        		success: function(res){
 	        			var data = res;
 	        			//然后 DataTables 这样初始化：
 	                    $('.dataTables-example').DataTable( {
 	                        data: data,
 	                        columns: [
-	                            { data: 'location' },
-	                            { data: 'content' },
-	                            { data: 'fontType' },                            
-	                            { data: 'fontSize' },
-	                            { data: 'indent' },
-	                            { data: 'alignment' },
-	                            { data: 'rowSpacing' },
-	                            { data: 'fontColor' }
+	                            { data: 'errLocation' },
+	                            { data: 'context' },
+	                            { data: 'errType' },                            
+	                            { data: 'errContent' },
+	                            { data: 'rightContent' }
 	                        ]
 	                    } );
 	        		},
 	        		error: function(res){
 	        			layer.msg('显示失败');
 	        		}
-	        	});
-	        }
+        		});
+	    });
 	    </script>
 	</body>
 </html>

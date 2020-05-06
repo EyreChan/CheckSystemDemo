@@ -80,7 +80,7 @@ public class FileController {
 					if(type.equals("template")) {
 						return this.templateService.insertTemplate(template);
 					}
-					else {
+					else if(type.equals("document")){
 						return 1;
 					}
 				}

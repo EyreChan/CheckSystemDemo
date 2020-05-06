@@ -6,13 +6,13 @@
       <idArg column="errLocation" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="context" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="errType" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="errContext" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="rightContext" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="errContent" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="rightContent" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="userName" jdbcType="VARCHAR" javaType="java.lang.String" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List" >
-    errLocation, context, errType, errContext, rightContext, userName
+    errLocation, context, errType, errContent, rightContent, userName
   </sql>
   <insert id="insertSelective" parameterType="com.system.pojo.Result" >
     insert into result
@@ -26,11 +26,11 @@
       <if test="errType != null" >
         errType,
       </if>
-      <if test="errContext != null" >
-        errContext,
+      <if test="errContent != null" >
+        errContent,
       </if>
-      <if test="rightContext != null" >
-        rightContext,
+      <if test="rightContent != null" >
+        rightContent,
       </if>
       <if test="userName != null" >
         userName,
@@ -46,11 +46,11 @@
       <if test="errType != null" >
         #{errType,jdbcType=VARCHAR},
       </if>
-      <if test="errContext != null" >
-        #{errContext,jdbcType=VARCHAR},
+      <if test="errContent != null" >
+        #{errContent,jdbcType=VARCHAR},
       </if>
-      <if test="rightContext != null" >
-        #{rightContext,jdbcType=VARCHAR},
+      <if test="rightContent != null" >
+        #{rightContent,jdbcType=VARCHAR},
       </if>
       <if test="userName != null" >
         #{userName,jdbcType=VARCHAR},

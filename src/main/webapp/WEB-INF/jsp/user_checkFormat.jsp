@@ -28,6 +28,7 @@
 					   	<p>待审查文件名：<input id="name" type="text" name="fileName"></p>
                     </div>
                     <a type='button' class='btn btn-info' href='#' onclick=check()>格式审查</a>
+                    <a type='button' class='btn btn-info' href="/user/user_getResult">查看结果</a>
                 </div>
             </div>
         </div>
@@ -74,9 +75,6 @@
 	        			}
 	        			else{
 	        				layer.msg('保存成功');
-	        				var index = parent.layer.getFrameIndex(window.name);  
-        				 	parent.layer.close(index);
-        				 	window.parent.location.reload(); 
 	        			}
 		       		},
 		    		error: function(res){

@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.system.pojo.Template;
+import com.system.pojo.Result;
 import com.system.service.UserService;
 import com.system.service.TemplateService;
 import com.system.service.DFormatService;
 import com.system.service.SFormatService;
+import com.system.service.ResultService;
 
 @Controller
 @RequestMapping("/user")
@@ -28,6 +30,8 @@ public class UserController {
 	private DFormatService dformatService = null;
 	@Autowired 
 	private SFormatService sformatService = null;
+	@Autowired
+	private ResultService resultService = null;
 	
 	@RequestMapping("/user_manageTemplate")
 	public String user_manageTemplate(HttpServletRequest request,Model model) {
@@ -104,5 +108,27 @@ public class UserController {
 	@RequestMapping("/user_getResult")
 	public String user_getResult(HttpServletRequest request,Model model) {
 		return "user_getResult";
+	}
+	
+	@RequestMapping("/user_getResults")
+	@ResponseBody
+	public List<Result> user_getResults(HttpServletRequest request,Model model) {
+		HttpServletRequest req = (HttpServletRequest) request;
+		
+		String userName = null;
+		
+		Cookie[] cookies = req.getCookies();
+		if(cookies!=null) {
+			for(Cookie cookie : cookies) {
+				if(cookie.getName().toString().equals("loginName")) {
+					userName = cookie.getValue();
+				}
+			}
+		}
+		
+		if(userName != null){
+			return this.resultService.getResultsByUser(userName);
+		}
+		return null;
 	}
 }
