@@ -3,6 +3,8 @@ package com.system.pojo;
 public class Result {
     private String userName;
     
+    private String formatType;
+    
     private Integer errLocation;
 
     private String context;
@@ -13,8 +15,9 @@ public class Result {
 
     private String rightContent;
     
-    public Result(String userName, Integer errLocation, String context, String errType, String errContent, String rightContent) {
+    public Result(String userName, String formatType, Integer errLocation, String context, String errType, String errContent, String rightContent) {
         this.userName = userName;
+        this.formatType = formatType;
         this.errLocation = errLocation;
         this.context = context;
         this.errType = errType;
@@ -32,6 +35,14 @@ public class Result {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+    
+    public String getFormatType() {
+    	return formatType;
+    }
+    
+    public void setFormatType(String formatType) {
+    	this.formatType = formatType;
     }
 
     public Integer getErrLocation() {

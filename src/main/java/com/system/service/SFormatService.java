@@ -10,5 +10,6 @@ public interface SFormatService {
 	public Integer deleteFormat(String name, String userName, String docType);
 	public Integer deleteFormatByUser(String userName);
 	
-	public List<SFormat> getFormatByName(String name, String userName);
+	public SFormat getFormatByStyleName(String name, String userName, String styleName);
+	public List<SFormat> getFormatByName(String name, String userName, String docType);
 }

@@ -86,10 +86,16 @@
     delete from sformat
     where userName = #{arg0}
   </delete>
+  <select id="selectByStyleName" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from sformat
+    where name = #{arg0} and userName = #{arg1} and docType = #{arg2} and styleName = #{arg3}
+  </select>
   <select id="selectBySelective" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
     from sformat
-    where name = #{arg0} and userName = #{arg1}
+    where name = #{arg0} and userName = #{arg1} and docType = #{arg2}
   </select>
 </mapper>

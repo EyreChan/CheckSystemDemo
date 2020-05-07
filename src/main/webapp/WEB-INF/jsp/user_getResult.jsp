@@ -34,6 +34,7 @@
 		                                <tr>
 		                                	<th>错误位置</th>
 		                                	<th>文本内容</th>
+		                                	<th>格式类型</th>
 		                                	<th>错误类型</th>
 		                                	<th>错误内容</th>
 		                                	<th>正确内容</th>
@@ -75,6 +76,7 @@
 	                        columns: [
 	                            { data: 'errLocation' },
 	                            { data: 'context' },
+	                            { data: 'formatType'},
 	                            { data: 'errType' },                            
 	                            { data: 'errContent' },
 	                            { data: 'rightContent' }

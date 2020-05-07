@@ -1,6 +1,6 @@
 package com.system.controller;
 
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -27,9 +27,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.system.pojo.DFormat;
+import com.system.pojo.Result;
 import com.system.pojo.SFormat;
 import com.system.pojo.Template;
 import com.system.service.DFormatService;
+import com.system.service.ResultService;
 import com.system.service.SFormatService;
 import com.system.service.TemplateService;
 
@@ -42,10 +44,12 @@ public class FileController {
 	private DFormatService dformatService = null;
 	@Autowired 
 	private SFormatService sformatService = null;
+	@Autowired
+	private ResultService resultSerive = null;
 	
 	@RequestMapping("/file_parserDocx")
 	@ResponseBody
-	public int file_parserDocx(String path, String name, String type, HttpServletRequest request,Model model) throws Exception {
+	public int file_parserDocx(String path, String name, String type, String tempName, HttpServletRequest request,Model model) throws Exception {
 		HttpServletRequest req = (HttpServletRequest) request;
 		
 		int len = name.length();
@@ -71,6 +75,11 @@ public class FileController {
 				
 				Template template = new Template(name, userName);
 				
+				if(type.equals("document")) {
+					this.dformatService.deleteFormat(name, userName, "document");
+					this.sformatService.deleteFormat(name, userName, "document");
+				}
+				
 				res1 = parserDocx1(name, userName, path + "\\" + name, type, req);
 				if(res1 == 1) {
 					res2 = parserDocx2(name, userName, path + "\\" + name, type, req);
@@ -81,7 +90,13 @@ public class FileController {
 						return this.templateService.insertTemplate(template);
 					}
 					else if(type.equals("document")){
-						return 1;
+						int t1 = compareDoc(name, tempName, userName);
+						if(t1 == 1) {
+							return compareStyle(name, tempName, userName);
+						}
+						else {
+							return 0;
+						}
 					}
 				}
 				else {
@@ -95,6 +110,114 @@ public class FileController {
 			return res2;
 		}
 		return 0;
+	}
+	
+	private int compareDoc(String name, String tempName, String userName) {
+		for(int i = 1; this.dformatService.getFormatByName(tempName, userName, "template", i) != null; i++) {
+			DFormat dformat1 = this.dformatService.getFormatByName(tempName, userName, "template", i);
+			DFormat dformat2 = this.dformatService.getFormatByName(name, userName, "document", i);
+			if(compareDFormat(dformat1, dformat2) != 1) {
+				return 0;
+			}
+		}
+		return 1;
+	}
+	
+	private int compareDFormat(DFormat dformat1, DFormat dformat2) {
+		if(!dformat1.getAlignment().equals(dformat2.getAlignment())) {
+			Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), "alignment", dformat2.getAlignment(), dformat1.getAlignment());
+			int res = this.resultSerive.insertResult(result);
+			if( res == 0) {
+				return 0;
+			}
+		}
+		if(!dformat1.getFontColor().equals(dformat2.getFontColor())) {
+			Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), "fontColor", dformat2.getFontColor(), dformat1.getFontColor());
+			int res = this.resultSerive.insertResult(result);
+			if( res == 0) {
+				return 0;
+			}
+		}
+		if(!dformat1.getFontSize().equals(dformat2.getFontSize())) {
+			Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), "fontSize", dformat2.getFontSize().toString(), dformat1.getFontSize().toString());
+			int res = this.resultSerive.insertResult(result);
+			if( res == 0) {
+				return 0;
+			}
+		}
+		if(!dformat1.getFontType().equals(dformat2.getFontType())) {
+			Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), "fontType", dformat2.getFontType(), dformat1.getFontType());
+			int res = this.resultSerive.insertResult(result);
+			if( res == 0) {
+				return 0;
+			}
+		}
+		if(!dformat1.getIndent().equals(dformat2.getIndent())) {
+			Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), "indent", dformat2.getIndent(), dformat1.getIndent());
+			int res = this.resultSerive.insertResult(result);
+			if( res == 0) {
+				return 0;
+			}
+		}
+		if(!dformat1.getRowSpacing().equals(dformat2.getRowSpacing())) {
+			Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), "rowSpacing", dformat2.getRowSpacing().toString(), dformat2.getRowSpacing().toString());
+			int res = this.resultSerive.insertResult(result);
+			if( res == 0) {
+				return 0;
+			}
+		}
+		return 1;
+	}
+	
+	private int compareStyle(String name, String tempName, String userName) {
+		List<SFormat> sfs = this.sformatService.getFormatByName(tempName, userName, "template");
+		for(SFormat sf:sfs) {
+			String styleName = sf.getStyleName();
+			SFormat sf2 = this.sformatService.getFormatByStyleName(name, userName, styleName);
+			if(compareSFormat(sf, sf2) != 1) {
+				return 0;
+			}
+		}
+		return 1;
+	}
+	
+	private int compareSFormat(SFormat sformat1, SFormat sformat2) {
+		if(!sformat1.getFontSZ().equals(sformat2.getFontSZ())) {
+			Result result = new Result(sformat2.getUserName(), "style", -1, sformat2.getStyleName(), "fontSZ", sformat2.getFontSZ().toString(), sformat1.getFontSZ().toString());
+			int res = this.resultSerive.insertResult(result);
+			if( res == 0) {
+				return 0;
+			}
+		}
+		if(!sformat1.getFontSZCS().equals(sformat2.getFontSZCS())) {
+			Result result = new Result(sformat2.getUserName(), "style", -1, sformat2.getStyleName(), "fontSZCS", sformat2.getFontSZCS().toString(), sformat1.getFontSZCS().toString());
+			int res = this.resultSerive.insertResult(result);
+			if( res == 0) {
+				return 0;
+			}
+		}
+		if(!sformat1.getFontASC().equals(sformat2.getFontASC())) {
+			Result result = new Result(sformat2.getUserName(), "style", -1, sformat2.getStyleName(), "fontASC", sformat2.getFontASC(), sformat1.getFontASC());
+			int res = this.resultSerive.insertResult(result);
+			if( res == 0) {
+				return 0;
+			}
+		}
+		if(!sformat1.getFontEAST().equals(sformat2.getFontEAST())) {
+			Result result = new Result(sformat2.getUserName(), "style", -1, sformat2.getStyleName(), "fontEAST", sformat2.getFontEAST(), sformat1.getFontEAST());
+			int res = this.resultSerive.insertResult(result);
+			if( res == 0) {
+				return 0;
+			}
+		}
+		if(!sformat1.getAlignment().equals(sformat2.getAlignment())) {
+			Result result = new Result(sformat2.getUserName(), "style", -1, sformat2.getStyleName(), "alignment", sformat2.getAlignment(), sformat1.getAlignment());
+			int res = this.resultSerive.insertResult(result);
+			if( res == 0) {
+				return 0;
+			}
+		}
+		return 1;
 	}
 	
 	private int parserDocx1(String name, String userName, String inputfilepath, String type, HttpServletRequest req) throws Exception {
@@ -317,7 +440,7 @@ public class FileController {
 	
 	@RequestMapping("/file_getDocFormat")
 	@ResponseBody
-	private List<DFormat> file_getDocFormat(String name, HttpServletRequest request,Model model) {
+	private List<DFormat> file_getDocFormat(String name, String docType, HttpServletRequest request,Model model) {
 		HttpServletRequest req = (HttpServletRequest) request;
 		
 		String userName = null;
@@ -331,7 +454,7 @@ public class FileController {
 		}
 		//System.out.println(name);
 		//System.out.println(userName);
-		return this.dformatService.getFormatByName(name, userName);
+		return this.dformatService.getFormatByName(name, userName, docType);
 	}
 	
 	@RequestMapping("/file_getStyleFormat")
@@ -350,6 +473,6 @@ public class FileController {
 		}
 		//System.out.println(name);
 		//System.out.println(userName);
-		return this.sformatService.getFormatByName(name, userName);
+		return this.sformatService.getFormatByName(name, userName, "template");
 	}
 }

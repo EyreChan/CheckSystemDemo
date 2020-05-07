@@ -3,20 +3,27 @@
 <mapper namespace="com.system.dao.ResultDao" >
   <resultMap id="BaseResultMap" type="com.system.pojo.Result" >
     <constructor >
-      <idArg column="errLocation" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="userName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="formatType" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="errLocation" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="context" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="errType" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="errContent" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="rightContent" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="userName" jdbcType="VARCHAR" javaType="java.lang.String" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List" >
-    errLocation, context, errType, errContent, rightContent, userName
+    userName, formatType, errLocation, context, errType, errContent, rightContent
   </sql>
   <insert id="insertSelective" parameterType="com.system.pojo.Result" >
     insert into result
     <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userName != null" >
+        userName,
+      </if>
+      <if test="formatType != null" >
+        formatType,
+      </if>
       <if test="errLocation != null" >
         errLocation,
       </if>
@@ -32,11 +39,14 @@
       <if test="rightContent != null" >
         rightContent,
       </if>
-      <if test="userName != null" >
-        userName,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="formatType != null" >
+        #{formatType,jdbcType=VARCHAR},
+      </if>
       <if test="errLocation != null" >
         #{errLocation,jdbcType=INTEGER},
       </if>
@@ -51,9 +61,6 @@
       </if>
       <if test="rightContent != null" >
         #{rightContent,jdbcType=VARCHAR},
-      </if>
-      <if test="userName != null" >
-        #{userName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

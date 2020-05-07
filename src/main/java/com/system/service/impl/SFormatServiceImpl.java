@@ -26,7 +26,11 @@ public class SFormatServiceImpl implements SFormatService {
 		return this.sformatDao.deleteByUser(userName);
 	}
 	
-	public List<SFormat> getFormatByName(String name, String userName) {
-		return this.sformatDao.selectBySelective(name, userName);
+	public SFormat getFormatByStyleName(String name, String userName, String styleName) {
+		return this.sformatDao.selectByStyleName(name, userName, "document", styleName);
+	}
+	
+	public List<SFormat> getFormatByName(String name, String userName, String docType) {
+		return this.sformatDao.selectBySelective(name, userName, docType);
 	}
 }

@@ -70,7 +70,7 @@
 	        		url: '/file/file_getDocFormat',
 	        		type: 'POST',
 	        		dataType: 'JSON',
-	        		data:{'name':tempname},
+	        		data:{'name':tempname, 'docType':"template"},
 	        		success: function(res){
 	        			var data = res;
 	        			//然后 DataTables 这样初始化：

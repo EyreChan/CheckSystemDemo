@@ -121,11 +121,11 @@ public class DFormat {
     	this.alignment = alignment;
     }
     
-    public int getRowSpacing() {
+    public Integer getRowSpacing() {
     	return rowSpacing;
     }
     
-    public void setRowSpacing(int rowSpacing) {
+    public void setRowSpacing(Integer rowSpacing) {
     	this.rowSpacing = rowSpacing;
     }
 }

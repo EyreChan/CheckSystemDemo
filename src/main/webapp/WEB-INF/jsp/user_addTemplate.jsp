@@ -52,7 +52,8 @@
 	        		data:{
 	        			'path':filePath,
 	        			'name':fileName,
-	        			'type':"template"
+	        			'type':"template",
+	        			'tempName':""
 	        		},
 		       		dataType: 'JSON',
 		       		success: function(res){

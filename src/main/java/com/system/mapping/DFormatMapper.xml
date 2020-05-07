@@ -100,10 +100,16 @@
     delete from dformat
     where userName = #{arg0}
   </delete>
+  <select id="selectOneBySelective" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from dformat
+    where name = #{arg0} and userName = #{arg1} and docType = #{arg2} and location = #{arg3}
+  </select>
   <select id="selectBySelective" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
     from dformat
-    where name = #{arg0} and userName = #{arg1}
+    where name = #{arg0} and userName = #{arg1} and docType = #{arg2}
   </select>
 </mapper>

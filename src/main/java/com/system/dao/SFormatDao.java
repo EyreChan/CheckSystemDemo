@@ -10,5 +10,6 @@ public interface SFormatDao {
     int deleteBySelective(String name, String userName, String docType);
     int deleteByUser(String userName);
 
-    List<SFormat> selectBySelective(String name, String userName);
+    SFormat selectByStyleName(String name, String userName, String docType, String styleName);
+    List<SFormat> selectBySelective(String name, String userName, String docType);
 }

@@ -18,15 +18,19 @@ public class DFormatServiceImpl implements DFormatService {
 		return this.dformatDao.insertSelective(format);
 	}
 	
-	public Integer deleteFormat(String name, String userName, String type) {
-		return this.dformatDao.deleteBySelective(name, userName, type);
+	public Integer deleteFormat(String name, String userName, String docType) {
+		return this.dformatDao.deleteBySelective(name, userName, docType);
 	}
 
 	public Integer deleteFormatByUser(String userName) {
 		return this.dformatDao.deleteByUser(userName);
 	}
 	
-	public List<DFormat> getFormatByName(String name, String userName) {
-		return this.dformatDao.selectBySelective(name, userName);
+	public DFormat getFormatByName(String name, String userName, String docType, Integer location) {
+		return this.dformatDao.selectOneBySelective(name, userName, docType, location);
+	}
+	
+	public List<DFormat> getFormatByName(String name, String userName, String docType) {
+		return this.dformatDao.selectBySelective(name, userName, docType);
 	}
 }

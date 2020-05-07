@@ -45,7 +45,7 @@
 	        		type: 'POST',
 		       		dataType: 'JSON',
 		       		success: function(res){
-		       			selectBox = '<p>选择模板：<select class="sub_button" id ="medicineId" name="medicineId">';
+		       			selectBox = '<p>选择模板：<select class="sub_button" id ="templateName" name="templateName">';
 		       			for(let i=0;i<res.length;i++){
 							selectBox += '<option value="' + res[i].name + '">' + res[i].name + '</option>';
 		       			}
@@ -60,25 +60,27 @@
 			function check() {
 				var filePath = document.getElementById('path').value;
 				var fileName = document.getElementById('name').value;
+				var templateName = $('#templateName').val();
 				$.ajax({
 	        		url: '/file/file_parserDocx',
 	        		type: 'POST',
 	        		data:{
 	        			'path':filePath,
 	        			'name':fileName,
-	        			'type':"document"
+	        			'type':"document",
+	        			'tempName':templateName
 	        		},
 		       		dataType: 'JSON',
 		       		success: function(res){
 		       			if(res == 0){
-		        			layer.msg('保存失败');
+		        			layer.msg('审查失败');
 	        			}
 	        			else{
-	        				layer.msg('保存成功');
+	        				layer.msg('审查成功');
 	        			}
 		       		},
 		    		error: function(res){
-		    			layer.msg('保存失败');
+		    			layer.msg('审查失败');
 		    		}
 				});
 			}
