@@ -78,6 +78,7 @@ public class FileController {
 				if(type.equals("document")) {
 					this.dformatService.deleteFormat(name, userName, "document");
 					this.sformatService.deleteFormat(name, userName, "document");
+					this.resultSerive.deleteResult(userName);
 				}
 				
 				res1 = parserDocx1(name, userName, path + "\\" + name, type, req);
@@ -123,50 +124,85 @@ public class FileController {
 		return 1;
 	}
 	
-	private int compareDFormat(DFormat dformat1, DFormat dformat2) {
+	boolean isEqual(DFormat dformat1, DFormat dformat2) {
 		if(!dformat1.getAlignment().equals(dformat2.getAlignment())) {
-			Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), "alignment", dformat2.getAlignment(), dformat1.getAlignment());
-			int res = this.resultSerive.insertResult(result);
-			if( res == 0) {
-				return 0;
-			}
+			return false;
 		}
-		if(!dformat1.getFontColor().equals(dformat2.getFontColor())) {
-			Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), "fontColor", dformat2.getFontColor(), dformat1.getFontColor());
-			int res = this.resultSerive.insertResult(result);
-			if( res == 0) {
-				return 0;
-			}
+		else if(!dformat1.getFontColor().equals(dformat2.getFontColor())) {
+			return false;
 		}
-		if(!dformat1.getFontSize().equals(dformat2.getFontSize())) {
-			Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), "fontSize", dformat2.getFontSize().toString(), dformat1.getFontSize().toString());
-			int res = this.resultSerive.insertResult(result);
-			if( res == 0) {
-				return 0;
-			}
+		else if(!dformat1.getFontSize().equals(dformat2.getFontSize()) && !dformat1.getFontSize().equals(-1)) {
+			return false;
 		}
-		if(!dformat1.getFontType().equals(dformat2.getFontType())) {
-			Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), "fontType", dformat2.getFontType(), dformat1.getFontType());
-			int res = this.resultSerive.insertResult(result);
-			if( res == 0) {
-				return 0;
-			}
+		else if(!dformat1.getFontType().equals(dformat2.getFontType()) && !dformat1.getFontType().equals("无") && !dformat1.getFontType().equals("EAST_ASIA")) {
+			return false;
 		}
-		if(!dformat1.getIndent().equals(dformat2.getIndent())) {
-			Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), "indent", dformat2.getIndent(), dformat1.getIndent());
-			int res = this.resultSerive.insertResult(result);
-			if( res == 0) {
-				return 0;
-			}
+		else if(!dformat1.getIndent().equals(dformat2.getIndent()) && !dformat1.getIndent().equals("无")) {
+			return false;
 		}
-		if(!dformat1.getRowSpacing().equals(dformat2.getRowSpacing())) {
-			Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), "rowSpacing", dformat2.getRowSpacing().toString(), dformat2.getRowSpacing().toString());
-			int res = this.resultSerive.insertResult(result);
-			if( res == 0) {
-				return 0;
-			}
+		else if(!dformat1.getRowSpacing().equals(dformat2.getRowSpacing()) && !dformat1.getRowSpacing().equals(-1)) {
+			return false;
 		}
-		return 1;
+		else {
+			return true;
+		}
+	}
+	
+	private int compareDFormat(DFormat dformat1, DFormat dformat2) {
+		if(isEqual(dformat1, dformat2)) {
+			return 1;
+		}
+		else if(this.dformatService.hasSameFormat(dformat2.getName(), dformat2.getUserName(), dformat2.getFontSize(), dformat2.getFontColor(), dformat2.getFontType(), dformat2.getIndent(), dformat2.getAlignment(), dformat2.getRowSpacing())) {
+			if(dformat2.getFontColor().equals("FF0000")) {
+				System.out.println("2");
+			}
+			return 1;
+		}
+		else {
+			if(!dformat1.getAlignment().equals(dformat2.getAlignment())) {
+				Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), "alignment", dformat2.getAlignment(), dformat1.getAlignment());
+				int res = this.resultSerive.insertResult(result);
+				if( res == 0) {
+					return 0;
+				}
+			}
+			if(!dformat1.getFontColor().equals(dformat2.getFontColor())) {
+				Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), "fontColor", dformat2.getFontColor(), dformat1.getFontColor());
+				int res = this.resultSerive.insertResult(result);
+				if( res == 0) {
+					return 0;
+				}
+			}
+			if(!dformat1.getFontSize().equals(dformat2.getFontSize()) && !dformat1.getFontSize().equals(-1)) {
+				Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), "fontSize", dformat2.getFontSize().toString(), dformat1.getFontSize().toString());
+				int res = this.resultSerive.insertResult(result);
+				if( res == 0) {
+					return 0;
+				}
+			}
+			if(!dformat1.getFontType().equals(dformat2.getFontType()) && !dformat1.getFontType().equals("无") && !dformat1.getFontType().equals("EAST_ASIA")) {
+				Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), "fontType", dformat2.getFontType(), dformat1.getFontType());
+				int res = this.resultSerive.insertResult(result);
+				if( res == 0) {
+					return 0;
+				}
+			}
+			if(!dformat1.getIndent().equals(dformat2.getIndent())) {
+				Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), "indent", dformat2.getIndent(), dformat1.getIndent());
+				int res = this.resultSerive.insertResult(result);
+				if( res == 0) {
+					return 0;
+				}
+			}
+			if(!dformat1.getRowSpacing().equals(dformat2.getRowSpacing()) && !dformat1.getRowSpacing().equals(-1)) {
+				Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), "rowSpacing", dformat2.getRowSpacing().toString(), dformat2.getRowSpacing().toString());
+				int res = this.resultSerive.insertResult(result);
+				if( res == 0) {
+					return 0;
+				}
+			}
+			return 1;
+		}
 	}
 	
 	private int compareStyle(String name, String tempName, String userName) {
@@ -182,28 +218,28 @@ public class FileController {
 	}
 	
 	private int compareSFormat(SFormat sformat1, SFormat sformat2) {
-		if(!sformat1.getFontSZ().equals(sformat2.getFontSZ())) {
+		if(!sformat1.getFontSZ().equals(sformat2.getFontSZ()) && !sformat1.getFontSZ().equals(-1)) {
 			Result result = new Result(sformat2.getUserName(), "style", -1, sformat2.getStyleName(), "fontSZ", sformat2.getFontSZ().toString(), sformat1.getFontSZ().toString());
 			int res = this.resultSerive.insertResult(result);
 			if( res == 0) {
 				return 0;
 			}
 		}
-		if(!sformat1.getFontSZCS().equals(sformat2.getFontSZCS())) {
+		if(!sformat1.getFontSZCS().equals(sformat2.getFontSZCS()) && !sformat1.getFontSZCS().equals(-1)) {
 			Result result = new Result(sformat2.getUserName(), "style", -1, sformat2.getStyleName(), "fontSZCS", sformat2.getFontSZCS().toString(), sformat1.getFontSZCS().toString());
 			int res = this.resultSerive.insertResult(result);
 			if( res == 0) {
 				return 0;
 			}
 		}
-		if(!sformat1.getFontASC().equals(sformat2.getFontASC())) {
+		if(!sformat1.getFontASC().equals(sformat2.getFontASC()) && !sformat1.getFontASC().equals("无")) {
 			Result result = new Result(sformat2.getUserName(), "style", -1, sformat2.getStyleName(), "fontASC", sformat2.getFontASC(), sformat1.getFontASC());
 			int res = this.resultSerive.insertResult(result);
 			if( res == 0) {
 				return 0;
 			}
 		}
-		if(!sformat1.getFontEAST().equals(sformat2.getFontEAST())) {
+		if(!sformat1.getFontEAST().equals(sformat2.getFontEAST()) && !sformat1.getFontEAST().equals("无")) {
 			Result result = new Result(sformat2.getUserName(), "style", -1, sformat2.getStyleName(), "fontEAST", sformat2.getFontEAST(), sformat1.getFontEAST());
 			int res = this.resultSerive.insertResult(result);
 			if( res == 0) {

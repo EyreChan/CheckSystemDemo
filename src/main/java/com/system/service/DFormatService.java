@@ -10,6 +10,7 @@ public interface DFormatService {
 	public Integer deleteFormat(String name, String userName, String docType);
 	public Integer deleteFormatByUser(String userName);
 	
-	DFormat getFormatByName(String name, String userName, String docType, Integer location);
+	public boolean hasSameFormat(String name, String userName, Integer fontSize, String fontColor, String fontType, String indent, String alignment, Integer rowSpacing);
+	public DFormat getFormatByName(String name, String userName, String docType, Integer location);
 	public List<DFormat> getFormatByName(String name, String userName, String docType);
 }

@@ -100,6 +100,12 @@
     delete from dformat
     where userName = #{arg0}
   </delete>
+  <select id="selectOne" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from dformat
+    where name = #{arg0} and userName = #{arg1} and docType = #{arg2} and fontSize = #{arg3} and fontColor = #{arg4} and fontType = #{arg5} and indent = #{arg6} and alignment = #{arg7} and rowSpacing = #{arg8}
+  </select>
   <select id="selectOneBySelective" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
