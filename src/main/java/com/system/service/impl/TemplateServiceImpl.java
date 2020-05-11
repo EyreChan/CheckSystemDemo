@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.system.pojo.Template;
-import com.system.dao.TemplateDao;
+import com.system.mapper.TemplateDao;
 import com.system.service.TemplateService;
 
 @Service

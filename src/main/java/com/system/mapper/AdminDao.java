@@ -1,4 +1,4 @@
-package com.system.dao;
+package com.system.mapper;
 
 import com.system.pojo.Admin;
 

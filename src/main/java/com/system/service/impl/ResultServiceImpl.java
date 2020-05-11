@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.system.dao.ResultDao;
+import com.system.mapper.ResultDao;
 import com.system.pojo.Result;
 import com.system.service.ResultService;
 

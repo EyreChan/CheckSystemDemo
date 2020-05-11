@@ -3,7 +3,7 @@ package com.system.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.system.dao.AdminDao;
+import com.system.mapper.AdminDao;
 import com.system.pojo.Admin;
 import com.system.service.AdminService;
 

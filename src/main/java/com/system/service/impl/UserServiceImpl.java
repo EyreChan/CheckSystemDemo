@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.system.dao.UserDao;
+import com.system.mapper.UserDao;
 import com.system.pojo.User;
 import com.system.service.UserService;
 
