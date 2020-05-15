@@ -10,8 +10,11 @@
 
     <title> - 登录</title>
     
-    <link rel="stylesheet" type="text/css" href="/static/css/index.css" />
+    <link href="/static/css/bootstrap.min.css?v=3.3.6" type="text/css" rel="stylesheet">
+    <link href="/static/css/font-awesome.css?v=4.4.0" type="text/css" rel="stylesheet">
     
+    <link href="/static/css/animate.css" type="text/css" rel="stylesheet">
+    <link href="/static/css/style.css?v=4.1.0" type="text/css" rel="stylesheet">
     
     <!--[if lt IE 9]>
     <meta http-equiv="refresh" content="0;ie.html" />
@@ -19,25 +22,27 @@
     <script>if(window.top !== window.self){ window.top.location = window.location;}</script>
 </head>
 
-<body>
-	<img class="bgone" src="/static/images/1.jpg" />
-	<img class="pic" src="/static/images/a.png" />
+<body class="gray-bg">
+    <div class="middle-box text-center loginscreen  animated fadeInDown">
+        <div>
+            <div>
+                <h1 class="logo-name">DFS</h1>
+            </div>
+            <h3>欢迎使用 文档格式审查分析系统</h3>
 
-	<div class="table">
-		<div class="wel">文档格式审查系统登录</div>
-		<div class="wel1">DOCUMENT FORMAT CHECK SYSTEM LOGIN</div>
-		<div class="user">
-			<div id="yonghu" style=""><img src="/static/images/yhm.png" /></div>
-			<input id="name" type="text" placeholder="用户名" />
-		</div>			
-		<div class="password">
-			<div id="yonghu"><img src="/static/images/mm.png" /></div>
-			<input id="password" type="password" placeholder="密码"/>
-		</div>
-		<button type="button" onclick="login()" class="btn">登 录</button>
-        <p>还没有账号？<a href="/log/goRegister">点此注册</a>
-        </p>
-	</div>
+            <form class="m-t" role="form" action="index.html">
+                <div class="form-group">
+                    <input id="userName" type="text" class="form-control" placeholder="用户名">
+                </div>
+                <div class="form-group">
+                    <input id="password" type="password" class="form-control" placeholder="密码">
+                </div>
+                <button type="button" onclick="login()" class="btn btn-primary block full-width m-b">登 录</button>
+                <p class="text-muted text-center"><a href="/log/goRegister">注册一个新账号</a>
+                </p>
+            </form>
+        </div>
+    </div>
 
     <!-- 全局js -->
     <script src="/static/js/jquery.min.js?v=2.1.4"></script>
@@ -45,20 +50,19 @@
     <script src="/static/layer/layer.js"></script>
     <script type="text/javascript" src="/static/js/jquery.cookie.js"></script>
 	<script>
-
 		function login(){
-			var name = $('#name').val();
+			var userName = $('#userName').val();
 			var password =$('#password').val();
 
-			if(name == "" || password == ""){
-				layer.msg("请输入用户名或密码!");
+			if(userName == "" || password == ""){
+				layer.msg("请输入用户名和密码!");
 			}
 			
 			$.ajax({
         		url: '/log/validate',
         		type: 'POST',
         		data: {
-	        			'name':name,
+	        			'name':userName,
 	        			'password':password
         			},
         		dataType: 'text',

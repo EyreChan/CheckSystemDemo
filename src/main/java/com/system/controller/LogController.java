@@ -98,7 +98,7 @@ public class LogController {
 		    	    
 		    	    System.out.println("admin");
 					
-					return "/index/index_admin";
+					return "/admin/index_admin";
 				}
 			}
 		}

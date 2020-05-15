@@ -35,9 +35,6 @@
 	                <div class="form-group">
 	                    <input id="password" type="password" class="form-control" placeholder="请输入密码">
 	                </div>
-	                <div class="form-group">
-	                    <input id="repassword" type="password" class="form-control" placeholder="请再次输入密码">
-	                </div>
 	                <button type="button" class="btn btn-primary block full-width m-b" onclick="register()">注 册</button>
 	            </form>
 	        </div>
@@ -64,13 +61,6 @@
 	        	var age = $('#age').val();
 	        	var password = $('#password').val();
 	        	var repassword = $('#repassword').val();
-	        	if($('.form-control').val() == ""){
-	        		layer.msg("请确保信息填写完整");
-	        	}
-	        	console.log(password+" / "+repassword);
-	        	if(password !== repassword){
-	        		layer.msg("请确保两次密码输入一致");
-	        	}
 	        	$.ajax({
 	        		url: '/log/doRegister',
 	        		type: 'POST',

@@ -29,13 +29,6 @@ public class UserServiceImpl implements UserService {
 	public List<User> getAllUsers() {
 		return this.userDao.selectAllUsers();
 	}
-
-	public Integer updatePassword(String username, String password) {
-		User user = new User();
-		user.setName(username);
-		user.setPassword(password);
-		return this.userDao.updateSelectiveByPrimaryKey(user);
-	}
 	
 	public Integer updateUser(User user) {
 		return this.userDao.updateSelectiveByPrimaryKey(user);

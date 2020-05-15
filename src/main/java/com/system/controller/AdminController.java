@@ -29,6 +29,11 @@ public class AdminController {
 	@Autowired
 	private DFormatService dformatService = null;
 	
+	@RequestMapping("/index_admin")
+	public String index_admin(HttpServletRequest request,Model model) {
+		return "index_admin";
+	}
+	
 	@RequestMapping("/admin_manageUser")
 	public String admin_manageUser(HttpServletRequest request,Model model) {
 		return "admin_manageUser";

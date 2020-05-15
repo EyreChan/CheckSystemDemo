@@ -13,7 +13,5 @@ public interface UserService {
 	
 	public List<User> getAllUsers();
 	
-	public Integer updatePassword(String userName, String password);
-	
 	public Integer updateUser(User user);
 }
