@@ -8,6 +8,10 @@ public class Result {
     private Integer errLocation;
 
     private String context;
+    
+    private String preContext;
+    
+    private String laterContext;
 
     private String errType;
 
@@ -15,11 +19,13 @@ public class Result {
 
     private String rightContent;
     
-    public Result(String userName, String formatType, Integer errLocation, String context, String errType, String errContent, String rightContent) {
+    public Result(String userName, String formatType, Integer errLocation, String context, String preContext, String laterContext, String errType, String errContent, String rightContent) {
         this.userName = userName;
         this.formatType = formatType;
         this.errLocation = errLocation;
         this.context = context;
+        this.preContext = preContext;
+        this.laterContext = laterContext;
         this.errType = errType;
         this.errContent = errContent;
         this.rightContent = rightContent;
@@ -59,6 +65,22 @@ public class Result {
 
     public void setContext(String context) {
         this.context = context;
+    }
+    
+    public String getPreContext() {
+        return preContext;
+    }
+
+    public void setPreContext(String preContext) {
+        this.preContext = preContext;
+    }
+    
+    public String getLaterContext() {
+        return laterContext;
+    }
+
+    public void setLaterContext(String laterContext) {
+        this.laterContext = laterContext;
     }
 
     public String getErrType() {

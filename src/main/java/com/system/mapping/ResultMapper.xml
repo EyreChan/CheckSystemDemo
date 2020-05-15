@@ -7,13 +7,15 @@
       <arg column="formatType" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="errLocation" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="context" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="preContext" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="laterContext" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="errType" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="errContent" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="rightContent" jdbcType="VARCHAR" javaType="java.lang.String" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List" >
-    userName, formatType, errLocation, context, errType, errContent, rightContent
+    userName, formatType, errLocation, context, preContext, laterContext, errType, errContent, rightContent
   </sql>
   <insert id="insertSelective" parameterType="com.system.pojo.Result" >
     insert into result
@@ -29,6 +31,12 @@
       </if>
       <if test="context != null" >
         context,
+      </if>
+      <if test="preContext != null" >
+        preContext,
+      </if>
+      <if test="laterContext != null" >
+        laterContext,
       </if>
       <if test="errType != null" >
         errType,
@@ -52,6 +60,12 @@
       </if>
       <if test="context != null" >
         #{context,jdbcType=VARCHAR},
+      </if>
+      <if test="preContext != null" >
+        #{preContext,jdbcType=VARCHAR},
+      </if>
+      <if test="laterContext != null" >
+        #{laterContext,jdbcType=VARCHAR},
       </if>
       <if test="errType != null" >
         #{errType,jdbcType=VARCHAR},

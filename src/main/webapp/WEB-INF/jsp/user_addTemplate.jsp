@@ -53,7 +53,8 @@
 	        			'path':filePath,
 	        			'name':fileName,
 	        			'type':"template",
-	        			'tempName':""
+	        			'tempName':"",
+	        			'dump':""
 	        		},
 		       		dataType: 'JSON',
 		       		success: function(res){

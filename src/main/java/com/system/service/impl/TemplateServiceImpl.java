@@ -29,8 +29,4 @@ public class TemplateServiceImpl implements TemplateService {
 	public List<Template> getTemplatesByUser(String userName) {
 		return this.templateDao.selectTemplatesByUser(userName);
 	}
-	
-	public Template getTemplateByName(String name, String userName) {
-		return this.templateDao.selectBySelective(name, userName);
-	}
 }

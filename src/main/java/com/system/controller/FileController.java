@@ -45,11 +45,11 @@ public class FileController {
 	@Autowired 
 	private SFormatService sformatService = null;
 	@Autowired
-	private ResultService resultSerive = null;
+	private ResultService resultService = null;
 	
 	@RequestMapping("/file_parserDocx")
 	@ResponseBody
-	public int file_parserDocx(String path, String name, String type, String tempName, HttpServletRequest request,Model model) throws Exception {
+	public int file_parserDocx(String path, String name, String type, String tempName, String dump, HttpServletRequest request,Model model) throws Exception {
 		HttpServletRequest req = (HttpServletRequest) request;
 		
 		int len = name.length();
@@ -73,12 +73,10 @@ public class FileController {
 					}
 				}
 				
-				Template template = new Template(name, userName);
-				
 				if(type.equals("document")) {
 					this.dformatService.deleteFormat(name, userName, "document");
 					this.sformatService.deleteFormat(name, userName, "document");
-					this.resultSerive.deleteResult(userName);
+					this.resultService.deleteResult(userName);
 				}
 				
 				res1 = parserDocx1(name, userName, path + "\\" + name, type, req);
@@ -88,10 +86,11 @@ public class FileController {
 				
 				if(res2 == 1) {
 					if(type.equals("template")) {
+						Template template = new Template(name, userName);
 						return this.templateService.insertTemplate(template);
 					}
 					else if(type.equals("document")){
-						int t1 = compareDoc(name, tempName, userName);
+						int t1 = compareDoc(name, tempName, userName, dump);
 						if(t1 == 1) {
 							return compareStyle(name, tempName, userName);
 						}
@@ -113,11 +112,19 @@ public class FileController {
 		return 0;
 	}
 	
-	private int compareDoc(String name, String tempName, String userName) {
+	private int compareDoc(String name, String tempName, String userName, String dump) {
+		DFormat pre = null;
+		DFormat later = null;
 		for(int i = 1; this.dformatService.getFormatByName(tempName, userName, "template", i) != null; i++) {
+			if(i != 1) {
+				pre = this.dformatService.getFormatByName(tempName, userName, "template", i - 1);
+			}
+			if(this.dformatService.getFormatByName(tempName, userName, "template", i + 1) != null) {
+				later = this.dformatService.getFormatByName(tempName, userName, "template", i + 1);
+			}
 			DFormat dformat1 = this.dformatService.getFormatByName(tempName, userName, "template", i);
 			DFormat dformat2 = this.dformatService.getFormatByName(name, userName, "document", i);
-			if(compareDFormat(dformat1, dformat2) != 1) {
+			if(compareDFormat(dformat1, dformat2, dump, pre, later) != 1) {
 				return 0;
 			}
 		}
@@ -148,55 +155,52 @@ public class FileController {
 		}
 	}
 	
-	private int compareDFormat(DFormat dformat1, DFormat dformat2) {
+	private int compareDFormat(DFormat dformat1, DFormat dformat2, String dump, DFormat pre, DFormat later) {
 		if(isEqual(dformat1, dformat2)) {
 			return 1;
 		}
-		else if(this.dformatService.hasSameFormat(dformat2.getName(), dformat2.getUserName(), dformat2.getFontSize(), dformat2.getFontColor(), dformat2.getFontType(), dformat2.getIndent(), dformat2.getAlignment(), dformat2.getRowSpacing())) {
-			if(dformat2.getFontColor().equals("FF0000")) {
-				System.out.println("2");
-			}
+		else if(dump.equals("yes") && this.dformatService.hasSameFormat(dformat2.getName(), dformat2.getUserName(), dformat2.getFontSize(), dformat2.getFontColor(), dformat2.getFontType(), dformat2.getIndent(), dformat2.getAlignment(), dformat2.getRowSpacing())) {
 			return 1;
 		}
 		else {
 			if(!dformat1.getAlignment().equals(dformat2.getAlignment())) {
-				Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), "alignment", dformat2.getAlignment(), dformat1.getAlignment());
-				int res = this.resultSerive.insertResult(result);
+				Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), pre.getContent(), later.getContent(), "alignment", dformat2.getAlignment(), dformat1.getAlignment());
+				int res = this.resultService.insertResult(result);
 				if( res == 0) {
 					return 0;
 				}
 			}
 			if(!dformat1.getFontColor().equals(dformat2.getFontColor())) {
-				Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), "fontColor", dformat2.getFontColor(), dformat1.getFontColor());
-				int res = this.resultSerive.insertResult(result);
+				Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), pre.getContent(), later.getContent(), "fontColor", dformat2.getFontColor(), dformat1.getFontColor());
+				int res = this.resultService.insertResult(result);
 				if( res == 0) {
 					return 0;
 				}
 			}
 			if(!dformat1.getFontSize().equals(dformat2.getFontSize()) && !dformat1.getFontSize().equals(-1)) {
-				Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), "fontSize", dformat2.getFontSize().toString(), dformat1.getFontSize().toString());
-				int res = this.resultSerive.insertResult(result);
+				Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), pre.getContent(), later.getContent(), "fontSize", dformat2.getFontSize().toString(), dformat1.getFontSize().toString());
+				int res = this.resultService.insertResult(result);
 				if( res == 0) {
 					return 0;
 				}
 			}
 			if(!dformat1.getFontType().equals(dformat2.getFontType()) && !dformat1.getFontType().equals("无") && !dformat1.getFontType().equals("EAST_ASIA")) {
-				Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), "fontType", dformat2.getFontType(), dformat1.getFontType());
-				int res = this.resultSerive.insertResult(result);
+				Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), pre.getContent(), later.getContent(), "fontType", dformat2.getFontType(), dformat1.getFontType());
+				int res = this.resultService.insertResult(result);
 				if( res == 0) {
 					return 0;
 				}
 			}
 			if(!dformat1.getIndent().equals(dformat2.getIndent())) {
-				Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), "indent", dformat2.getIndent(), dformat1.getIndent());
-				int res = this.resultSerive.insertResult(result);
+				Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), pre.getContent(), later.getContent(), "indent", dformat2.getIndent(), dformat1.getIndent());
+				int res = this.resultService.insertResult(result);
 				if( res == 0) {
 					return 0;
 				}
 			}
 			if(!dformat1.getRowSpacing().equals(dformat2.getRowSpacing()) && !dformat1.getRowSpacing().equals(-1)) {
-				Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), "rowSpacing", dformat2.getRowSpacing().toString(), dformat2.getRowSpacing().toString());
-				int res = this.resultSerive.insertResult(result);
+				Result result = new Result(dformat2.getUserName(), "doc", dformat2.getLocation(), dformat2.getContent(), pre.getContent(), later.getContent(), "rowSpacing", dformat2.getRowSpacing().toString(), dformat2.getRowSpacing().toString());
+				int res = this.resultService.insertResult(result);
 				if( res == 0) {
 					return 0;
 				}
@@ -219,36 +223,36 @@ public class FileController {
 	
 	private int compareSFormat(SFormat sformat1, SFormat sformat2) {
 		if(!sformat1.getFontSZ().equals(sformat2.getFontSZ()) && !sformat1.getFontSZ().equals(-1)) {
-			Result result = new Result(sformat2.getUserName(), "style", -1, sformat2.getStyleName(), "fontSZ", sformat2.getFontSZ().toString(), sformat1.getFontSZ().toString());
-			int res = this.resultSerive.insertResult(result);
+			Result result = new Result(sformat2.getUserName(), "style", -1, sformat2.getStyleName(), "", "", "fontSZ", sformat2.getFontSZ().toString(), sformat1.getFontSZ().toString());
+			int res = this.resultService.insertResult(result);
 			if( res == 0) {
 				return 0;
 			}
 		}
 		if(!sformat1.getFontSZCS().equals(sformat2.getFontSZCS()) && !sformat1.getFontSZCS().equals(-1)) {
-			Result result = new Result(sformat2.getUserName(), "style", -1, sformat2.getStyleName(), "fontSZCS", sformat2.getFontSZCS().toString(), sformat1.getFontSZCS().toString());
-			int res = this.resultSerive.insertResult(result);
+			Result result = new Result(sformat2.getUserName(), "style", -1, sformat2.getStyleName(), "", "", "fontSZCS", sformat2.getFontSZCS().toString(), sformat1.getFontSZCS().toString());
+			int res = this.resultService.insertResult(result);
 			if( res == 0) {
 				return 0;
 			}
 		}
 		if(!sformat1.getFontASC().equals(sformat2.getFontASC()) && !sformat1.getFontASC().equals("无")) {
-			Result result = new Result(sformat2.getUserName(), "style", -1, sformat2.getStyleName(), "fontASC", sformat2.getFontASC(), sformat1.getFontASC());
-			int res = this.resultSerive.insertResult(result);
+			Result result = new Result(sformat2.getUserName(), "style", -1, sformat2.getStyleName(), "", "", "fontASC", sformat2.getFontASC(), sformat1.getFontASC());
+			int res = this.resultService.insertResult(result);
 			if( res == 0) {
 				return 0;
 			}
 		}
 		if(!sformat1.getFontEAST().equals(sformat2.getFontEAST()) && !sformat1.getFontEAST().equals("无")) {
-			Result result = new Result(sformat2.getUserName(), "style", -1, sformat2.getStyleName(), "fontEAST", sformat2.getFontEAST(), sformat1.getFontEAST());
-			int res = this.resultSerive.insertResult(result);
+			Result result = new Result(sformat2.getUserName(), "style", -1, sformat2.getStyleName(), "", "", "fontEAST", sformat2.getFontEAST(), sformat1.getFontEAST());
+			int res = this.resultService.insertResult(result);
 			if( res == 0) {
 				return 0;
 			}
 		}
 		if(!sformat1.getAlignment().equals(sformat2.getAlignment())) {
-			Result result = new Result(sformat2.getUserName(), "style", -1, sformat2.getStyleName(), "alignment", sformat2.getAlignment(), sformat1.getAlignment());
-			int res = this.resultSerive.insertResult(result);
+			Result result = new Result(sformat2.getUserName(), "style", -1, sformat2.getStyleName(), "", "", "alignment", sformat2.getAlignment(), sformat1.getAlignment());
+			int res = this.resultService.insertResult(result);
 			if( res == 0) {
 				return 0;
 			}

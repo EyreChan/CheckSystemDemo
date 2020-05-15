@@ -11,5 +11,4 @@ public interface TemplateDao {
     int deleteByUser(String userName);
 
 	List<Template> selectTemplatesByUser(String userName);
-	Template selectBySelective(String name, String userName);
 }

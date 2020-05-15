@@ -26,9 +26,14 @@
                     <div class="ibox-content" style="font-size:18px;" id="template">
                         <p>待审查文件位置：<input id="path" type="text" name="filePath"></p> 
 					   	<p>待审查文件名：<input id="name" type="text" name="fileName"></p>
+					   	<p>格式是否重复：<select class="sub_button" id ="dumplicate" name="dumplicate">
+								   		<option value="no">不可重复</option>
+								   		<option value="yes">可以重复</option>
+								   	</select>
+					   	</p>
                     </div>
-                    <a type='button' class='btn btn-info' href='#' onclick=check()>格式审查</a>
-                    <a type='button' class='btn btn-info' href="/user/user_getResult">查看结果</a>
+                    <a type='button' class='btn btn-info' href='#' onclick=check()>审查</a>
+                    <a type='button' class='btn btn-info' href="/user/user_getResult">结果</a>
                 </div>
             </div>
         </div>
@@ -60,6 +65,7 @@
 			function check() {
 				var filePath = document.getElementById('path').value;
 				var fileName = document.getElementById('name').value;
+				var dumplicate = $('#dumplicate').val();
 				var templateName = $('#templateName').val();
 				$.ajax({
 	        		url: '/file/file_parserDocx',
@@ -68,7 +74,8 @@
 	        			'path':filePath,
 	        			'name':fileName,
 	        			'type':"document",
-	        			'tempName':templateName
+	        			'tempName':templateName,
+	        			'dump':dumplicate
 	        		},
 		       		dataType: 'JSON',
 		       		success: function(res){

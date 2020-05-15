@@ -22,12 +22,6 @@
     delete from template
     where userName = #{arg0}
   </delete>
-  <select id="selectBySelective" resultMap="BaseResultMap" >
-    select 
-    <include refid="Base_Column_List" />
-    from template
-    where name = #{0} and userName = #{1}
-  </select>
   <select id="selectTemplatesByUser" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

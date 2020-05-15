@@ -11,5 +11,4 @@ public interface TemplateService {
 	public Integer deleteTemplateByUser(String userName);
 	
 	public List<Template> getTemplatesByUser(String userName);
-	public Template getTemplateByName(String name, String userName);
 }
