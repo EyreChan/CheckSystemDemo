@@ -83,12 +83,4 @@
     </set>
     where name = #{name,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.system.pojo.User" >
-    update user
-    set gender = #{gender,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
-      age = #{age,jdbcType=INTEGER},
-      password = #{password,jdbcType=VARCHAR}
-    where name = #{name,jdbcType=VARCHAR}
-  </update>
 </mapper>

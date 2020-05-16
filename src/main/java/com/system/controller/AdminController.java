@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.system.pojo.User;
 import com.system.service.AdminService;
-import com.system.service.DFormatService;
-import com.system.service.TemplateService;
 import com.system.service.UserService;
+import com.system.service.TemplateService;
+import com.system.service.DFormatService;
+import com.system.service.SFormatService;
+import com.system.service.ResultService;
 
 @Controller
 @RequestMapping("/admin")
@@ -28,6 +30,10 @@ public class AdminController {
 	private TemplateService templateService = null;
 	@Autowired
 	private DFormatService dformatService = null;
+	@Autowired
+	private SFormatService sformatService = null;	
+	@Autowired
+	private ResultService resultService = null;
 	
 	@RequestMapping("/index_admin")
 	public String index_admin(HttpServletRequest request,Model model) {
@@ -52,6 +58,8 @@ public class AdminController {
 		int res = this.userService.deleteUser(name);
 		this.templateService.deleteTemplateByUser(name);
 		this.dformatService.deleteFormatByUser(name);
+		this.sformatService.deleteFormatByUser(name);
+		this.resultService.deleteResult(name);
 		//System.out.println(res);
 		return res;
 	}

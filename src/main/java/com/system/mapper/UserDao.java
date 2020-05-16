@@ -13,5 +13,4 @@ public interface UserDao {
     List<User> selectAllUsers();
 
     int updateSelectiveByPrimaryKey(User user);
-    int updateByPrimaryKey(User user);
 }
